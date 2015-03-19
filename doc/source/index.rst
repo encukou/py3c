@@ -37,6 +37,18 @@ Pick the docs you wish to read:
 
     Head here if you're looking for something specific.
 
+Project info
+============
+
+The py3c library is available under the MIT license.
+This documentation is available under the Creative Commons Attribution-ShareAlike 3.0 Unported license.
+May they serve you well.
+
+If you'd like to contribute code, words, suggestions, bug reports, or anything else,
+do so at `the Github page <github.com/encukou/py3c>`_.
+
+Oh, and you should pronounce "py3c" with a hard "c", if you can manage to do so.
+
 
 .. toctree::
    :hidden:

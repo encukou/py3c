@@ -1,6 +1,6 @@
-====================
-py3c – Porting guide
-====================
+=====================================
+Porting guide for Python C Extensions
+=====================================
 
 Before you start adding Python 3 compatibility to your C extension,
 consider your options:
@@ -27,8 +27,8 @@ from Lennart Regebro's book "Porting to Python 3",
 the `C porting guide <https://docs.python.org/3/howto/cporting.html>`_
 from Python documentation, and the py3c headers for macros to use.
 
-Porting overview
-================
+Overview
+========
 
 Porting a C extension to Python 3 involves these phases:
 

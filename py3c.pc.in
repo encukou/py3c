@@ -1,0 +1,8 @@
+# Template file for pkg-config
+includedir=@includedir@
+
+Name: py3c
+Description: Python 2/3 compatibility layer for C extensions
+Requires: Python
+Version: 0.1
+Cflags: -I${includedir}

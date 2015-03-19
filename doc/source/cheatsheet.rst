@@ -2,6 +2,7 @@
 The py3c Cheatsheet
 ~~~~~~~~~~~~~~~~~~~
 
+
 Strings
 ~~~~~~~
 
@@ -13,33 +14,50 @@ Strings
 
 * PyString_* – when you don't care about Python 3 yet
 
+Use PyStr_AsUTF8AndSize to get a char* and its length.
+
+
 Ints
 ~~~~
 
 Use whatever you used in Python 2. For py3-only code, use ``PyLong``.
 
-Comparison
-~~~~~~~~~~
 
-Use `rich comparisons <https://www.python.org/dev/peps/pep-0207/>`_.
-A convenience macro, ``PY3C_RICHCMP(a, b, op)``, is provided to help common cases.
+Comparisons
+~~~~~~~~~~~
+
+Use `rich comparisons <https://www.python.org/dev/peps/pep-0207/>`_::
+
+    static PyObject* mytype_richcmp(PyObject *obj1, PyObject *obj2, int op)
+    {
+        if (mytype_Check(obj2)) {
+            return PY3C_RICHCMP(get_data(obj1), get_data(obj2), op);
+        }
+        Py_RETURN_NOTIMPLEMENTED;
+    }
+
+::
+
+    .tp_richcompare = mytype_richcmp
+
 
 Objects & Types
 ~~~~~~~~~~~~~~~
 
-Use ``Py_TYPE(obj)`` instead of ``obj->ob_type``.
+==============================  ================================
+Instead of                      use
+==============================  ================================
+obj->ob_type                    Py_TYPE(obj)
+obj->ob_refcnt                  Py_REFCNT(obj)
+obj->ob_size                    Py_SIZE(obj)
+PyVarObject_HEAD_INIT(NULL, 0)  PyObject_HEAD_INIT(NULL), 0
+==============================  ================================
 
-Use ``PyVarObject_HEAD_INIT(NULL, 0)`` instead of ``PyObject_HEAD_INIT(NULL), 0``.
 
 Module initialization
 ~~~~~~~~~~~~~~~~~~~~~
 
-Write things as in Python 3, but:
-
-    * MODULE_INIT_FUNC to declare+define the init function.
-    * Do not use ``m_reload``, ``m_traverse``, ``m_clear``, ``m_free`` in moduledef
-
-The code will look like this::
+::
 
     static struct PyModuleDef moduledef = {
         PyModuleDef_HEAD_INIT,

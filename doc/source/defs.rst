@@ -7,6 +7,7 @@ This table summarizes the various macros py3c defines.
 ============================ ============= ==============
 Macro                        py2           py3
 ============================ ============= ==============
+IS_PY3                       → 0           → 1
 PyStr_*                      → PyString_*  → PyUnicode_*
 PyBytes_*                    → PyString_*  ✔
 PyUnicode_*                  ✔             ✔
@@ -33,7 +34,7 @@ Legend:
 
     | ✔ – provided by Python
     | → – defined in py3c as a simple alias for
-    | = – defined as in Python 3.4, for Pythons versions that don't define it
+    | = – provided by at least Python 3.4; py3c backports it to Python versions that don't define it
 
 The following non-trivial macros are defined:
 
@@ -51,7 +52,7 @@ The following non-trivial macros are defined:
 
     MODULE_INIT_FUNC(<mod>)
         | Python 3: declares PyInit_<mod> and provides function header for it
-        | Python 2: declares & defines PyInit_<mod>; declares init<mod> and provides function header for it
+        | Python 2: declares & defines init<mod>; declares a static PyInit_<mod> and provides function header for it
 
     PY3C_RICHCMP
         | See docs. (Purely a convenience macro, same in both versions.)

@@ -21,19 +21,21 @@ Pick the docs you wish to read:
     Also useful if you find yourself working on a project that someone else
     is porting, and don't understand what's going on.
 
-* :doc:`Definition summary <defs>`
+    If you want something to print out a stick on your wall,
+    use this – compared to the other docs, you'll save trees.
+
+* :doc:`Definition Summary <defs>`
 
     A **table** summarizing how py3c's macros are defined.
     Convenient if you already know the differences between Python 2 and 3,
     or before a dive into py3c's internals.
 
+    Also serves as a summary of where py3c provides the
+    Python 3 API, and where it resorts to inventing its own macros.
 
+* :ref:`Index <genindex>` and :ref:`Search <search>`
 
-Indices:
-
-* :ref:`genindex`
-* :ref:`search`
-
+    Head here if you're looking for something specific.
 
 
 .. toctree::

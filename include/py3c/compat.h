@@ -33,9 +33,17 @@
 
 /* Ints */
 
-#define PyInt_FromLong PyLong_FromLong
-#define PyInt_AsLong PyLong_AsLong
+#define PyInt_Type PyLong_Type
 #define PyInt_Check PyLong_Check
+#define PyInt_CheckExact PyLong_CheckExact
+#define PyInt_FromString PyLong_FromString
+#define PyInt_FromLong PyLong_FromLong
+#define PyInt_FromSsize_t PyLong_FromSsize_t
+#define PyInt_FromSize_t PyLong_FromSize_t
+#define PyInt_AsLong PyLong_AsLong
+#define PyInt_AS_LONG PyLong_AS_LONG
+#define PyInt_AsUnsignedLongLongMask PyLong_AsUnsignedLongLongMask
+#define PyInt_AsSSize_t PyLong_AsSSize_t
 
 /* Module init */
 
@@ -70,7 +78,7 @@
 #define PyStr_InternFromString PyString_InternFromString
 #define PyStr_Decode PyString_Decode
 
-#define PyStr_AsUTF8String(unicode) PyString_AsEncodedString(unicode, "UTF-8", "strict")
+#define PyStr_AsUTF8String(str) PyString_AsEncodedObject(str, "UTF-8", "strict")
 #define PyStr_AsUTF8AndSize(pystr, sizeptr) \
     ((*sizeptr=PyString_Size(pystr)), PyString_AsString(pystr))
 

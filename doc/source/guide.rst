@@ -1,3 +1,8 @@
+..
+    Copyright 2015, Red Hat
+    Licensed under CC-BY-SA-3.0; see the license file
+
+
 =====================================
 Porting guide for Python C Extensions
 =====================================

@@ -49,4 +49,7 @@ Contribute
 License
 -------
 
-The project is licensed under the MIT license.
+The code is licensed under the MIT license.
+The documentation is licensed under CC-BY-SA 3.0.
+
+See the files LICENSE.MIT and doc/LICENSE.CC-BY-SA-3.0.

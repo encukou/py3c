@@ -33,6 +33,11 @@ Pick the docs you wish to read:
     Also serves as a summary of where py3c provides the
     Python 3 API, and where it resorts to inventing its own macros.
 
+* :doc:`Reference Guide <reference>`
+
+    Includes **explanations** of all the macros py3c defines.
+    The search will point you here when it finds a term.
+
 * :ref:`Index <genindex>` and :ref:`Search <search>`
 
     Head here if you're looking for something specific.
@@ -56,3 +61,4 @@ Oh, and you should pronounce "py3c" with a hard "c", if you can manage to do so.
    guide
    cheatsheet
    defs
+   reference

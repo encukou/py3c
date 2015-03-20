@@ -72,11 +72,23 @@
 #define PyStr_FromFormat PyString_FromFormat
 #define PyStr_FromFormatV PyString_FromFormatV
 #define PyStr_AsString PyString_AsString
-#define PyStr_Concat PyString_Concat
 #define PyStr_Format PyString_Format
 #define PyStr_InternInPlace PyString_InternInPlace
 #define PyStr_InternFromString PyString_InternFromString
 #define PyStr_Decode PyString_Decode
+
+static inline PyObject *PyStr_Concat(PyObject *left, PyObject *right) {
+    PyObject **str = &left;
+    Py_INCREF(left);
+    PyString_Concat(str, right);
+    if (str) {
+        Py_DECREF(left);
+        return *str;
+    } else {
+        // reference to old string was stolen
+        return NULL;
+    }
+}
 
 #define PyStr_AsUTF8String(str) PyString_AsEncodedObject(str, "UTF-8", "strict")
 #define PyStr_AsUTF8AndSize(pystr, sizeptr) \

@@ -35,7 +35,7 @@ Pick the docs you wish to read:
 
 * :doc:`Reference Guide <reference>`
 
-    Includes **explanations** of all the macros py3c defines.
+    Lists **every macro** py3c defines.
     The search will point you here when it finds a term.
 
 * :ref:`Index <genindex>` and :ref:`Search <search>`

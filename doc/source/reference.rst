@@ -135,7 +135,15 @@ All follow the Python 3 API, except ``PyStr`` is substituted for ``PyUnicode``.
     | Python 2: :c:func:`PyString_Decode <py2:PyString_Decode>`
     | Python 3: :c:func:`PyUnicode_Decode <py3:PyUnicode_Decode>`
 
-.. c:function:: PyObject* PyStr_AsUTF8String(str)
+.. c:function:: char* PyStr_AsUTF8(PyObject *str)
+
+    Encode a string using UTF-8 and return the result as a char*.
+    Under Python 3, the result is UTF-8 encoded.
+
+    | Python 2: :c:func:`PyString_AsString <py2:PyString_AsEncodedObject>`
+    | Python 3: :c:func:`PyUnicode_AsUTF8 <py3:PyUnicode_AsUTF8>`
+
+.. c:function:: PyObject* PyStr_AsUTF8String(PyObject *str)
 
     Encode a string using UTF-8 and return the result as PyBytes.
 

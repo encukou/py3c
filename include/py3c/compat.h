@@ -29,6 +29,7 @@
 #define PyStr_Decode PyUnicode_Decode
 
 #define PyStr_AsUTF8String PyUnicode_AsUTF8String // returns PyBytes
+#define PyStr_AsUTF8 PyUnicode_AsUTF8
 #define PyStr_AsUTF8AndSize PyUnicode_AsUTF8AndSize
 
 /* Ints */
@@ -78,12 +79,12 @@
 #define PyStr_Decode PyString_Decode
 
 static inline PyObject *PyStr_Concat(PyObject *left, PyObject *right) {
-    PyObject **str = &left;
+    PyObject *str = left;
     Py_INCREF(left);
-    PyString_Concat(str, right);
+    PyString_Concat(&str, right);
     if (str) {
         Py_DECREF(left);
-        return *str;
+        return str;
     } else {
         // reference to old string was stolen
         return NULL;
@@ -91,6 +92,7 @@ static inline PyObject *PyStr_Concat(PyObject *left, PyObject *right) {
 }
 
 #define PyStr_AsUTF8String(str) PyString_AsEncodedObject(str, "UTF-8", "strict")
+#define PyStr_AsUTF8 PyString_AsString
 #define PyStr_AsUTF8AndSize(pystr, sizeptr) \
     ((*sizeptr=PyString_Size(pystr)), PyString_AsString(pystr))
 
@@ -99,8 +101,8 @@ static inline PyObject *PyStr_Concat(PyObject *left, PyObject *right) {
 #define PyBytes_CheckExact PyString_CheckExact
 #define PyBytes_FromString PyString_FromString
 #define PyBytes_FromStringAndSize PyString_FromStringAndSize
-#define PyBytes_FromFormat PyUnicode_FromFormat
-#define PyBytes_FromFormatV PyUnicode_FromFormatV
+#define PyBytes_FromFormat PyString_FromFormat
+#define PyBytes_FromFormatV PyString_FromFormatV
 #define PyBytes_Size PyString_Size
 #define PyBytes_GET_SIZE PyString_GET_SIZE
 #define PyBytes_AsString PyString_AsString

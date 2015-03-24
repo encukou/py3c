@@ -38,7 +38,7 @@ Pick the docs you wish to read:
     Also serves as a summary of where py3c provides the
     Python 3 API, and where it resorts to inventing its own macros.
 
-* :doc:`Reference Guide <reference>`
+* :doc:`Reference <reference>`
 
     Lists **every macro** py3c defines.
     The search will point you here when it finds a term.

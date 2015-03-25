@@ -31,8 +31,14 @@ Python 3 APIs. This is where py3c can help.
 
 This is an *opinionated* guide to porting. It does not enumerate your options,
 but rather provides one tried way of doing things.
-If you want details, or wish to port without including py3c headers,
-consult the `"Migrating C extensions" chapter <http://python3porting.com/cextensions.html>`_
+
+This doesn't mean you can't do things your way – for example, you can
+cherry-pick the macros you need and put them directly in your files.
+However, dedicated headers for backwards compatibility will make them easier
+to find when the time comes to remove them.
+
+If you want more details, consult the
+`"Migrating C extensions" chapter <http://python3porting.com/cextensions.html>`_
 from Lennart Regebro's book "Porting to Python 3",
 the `C porting guide <https://docs.python.org/3/howto/cporting.html>`_
 from Python documentation, and the py3c headers for macros to use.

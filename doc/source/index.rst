@@ -55,7 +55,7 @@ This documentation is available under the Creative Commons Attribution-ShareAlik
 May they serve you well.
 
 If you'd like to contribute code, words, suggestions, bug reports, or anything else,
-do so at `the Github page <github.com/encukou/py3c>`_.
+do so at `the Github page <http://github.com/encukou/py3c>`_.
 
 Oh, and you should pronounce "py3c" with a hard "c", if you can manage to do so.
 

@@ -1,5 +1,5 @@
 ..
-    Copyright 2015, Red Hat
+    Copyright (c) 2015, Red Hat, Inc. and/or its affiliates
     Licensed under CC-BY-SA-3.0; see the license file
 
 

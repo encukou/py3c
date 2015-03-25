@@ -243,6 +243,9 @@ and `future <http://python-future.org/>`_, and, failing that,
 For C, the py3c library provides common tools, and for special cases you can use
 conditional compilation with ``#if IS_PY3``.
 
+To start using py3c, ``#include <py3c.h>``, and instruct your compiler to
+find the header.
+
 
 .. index::
     double: Porting; Strings

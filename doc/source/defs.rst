@@ -45,6 +45,7 @@ The following non-trivial macros are defined:
 
     :c:func:`PyStr_AsUTF8AndSize`
         Python 2: defined in terms of PyString_Size and PyString_AsString. Differences from Python 3:
+
           * no encoding (string is assumed to be UTF-8-encoded)
           * size pointer must not be NULL
           * size may be stored even if an error occurs

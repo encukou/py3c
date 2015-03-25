@@ -17,6 +17,11 @@ Compatibility layer
     #include <py3c/compat.h>  // (included in <py3c.h>)
 
 
+.. c:macro:: IS_PY3
+
+    Defined as ``1`` when building for Python 3; ``0`` otherwise.
+
+
 .. index:: PyStr
 .. _PyStr:
 

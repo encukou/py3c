@@ -9,7 +9,7 @@ py3c reference
 
 .. highlight:: c
 
-Compatibility layer
+Compatibility Layer
 ===================
 
 ::

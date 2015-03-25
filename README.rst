@@ -23,10 +23,13 @@ Projects using py3c will be compatible with CPython 2.6, 2.7, and 3.2+.
 Guides
 ------
 
-A detailed porting guide is provided.
+A detailed `porting guide`_ is provided.
 
-A cheatsheet is available for those that already know the Python C API,
+A `cheatsheet`_ is available for those that already know the Python C API,
 and want to know what the py3c macros do.
+
+.. _porting guide: http://py3c.readthedocs.org/en/latest/guide.html
+.. _cheatsheet: http://py3c.readthedocs.org/en/latest/cheatsheet.html
 
 
 Installation

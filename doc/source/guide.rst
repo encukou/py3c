@@ -150,6 +150,17 @@ to Python 3 is complete.
 The is also needed for Py_RETURN_NOTIMPLEMENTED until you drop support for
 Python 3.2.
 
+.. note::
+
+    The ``tp_richcompare`` slot is inherited in subclasses together with
+    ``tp_hash`` and (in Python 2) ``tp_compare``: iff
+    the subclass doesn't define any of them, all are inherited.
+
+    This means that if a class is modernized, its subclasses don't have to be,
+    *unless* the subclass manipulates compare/hash slots after
+    class creation (e.g. after the :c:func:`PyType_Ready <py3:PyType_Ready>`
+    call).
+
 
 .. index::
     double: Modernization; PyObject structure

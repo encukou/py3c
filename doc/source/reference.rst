@@ -485,3 +485,45 @@ Comparison Helpers
         ((op) == Py_LE) ? PyBool_FromLong((val1) <= (val2)) : \
         ((op) == Py_GE) ? PyBool_FromLong((val1) >= (val2)) : \
         (Py_INCREF(Py_NotImplemented), Py_NotImplemented)
+
+
+.. _capsulethunk:
+
+Capsules
+========
+
+::
+
+    #include <py3c/capsulethunk.h>  // (*NOT* included in <py3c.h>)
+
+This header is copied from the `Python documentation <https://docs.python.org/3/howto/cporting.html#cobject-replaced-with-capsule>`_.
+The following text is adapted from its official docs:
+
+Simply write your code against the Capsule API and include this header file
+after Python.h.
+Your code will automatically use Capsules in versions of Python with Capsules,
+and switch to CObjects when Capsules are unavailable.
+
+``capsulethunk.h`` simulates Capsules using CObjects.  However,
+:c:type:`CObject <py3:PyCObject>` provides no place to store the capsule's "name".
+As a result the simulated :c:type:`Capsule <py3:Capsule>` objects created by
+``capsulethunk.h`` behave slightly differently from real Capsules.  Specifically:
+
+  * The name parameter passed in to :c:func:`PyCapsule_New` is ignored.
+
+  * The name parameter passed in to :c:func:`PyCapsule_IsValid` and
+    :c:func:`PyCapsule_GetPointer` is ignored, and no error checking
+    of the name is performed.
+
+  * :c:func:`PyCapsule_GetName` always returns NULL.
+
+  * :c:func:`PyCapsule_SetName` always raises an exception and
+    returns failure.  (Since there's no way to store a name
+    in a CObject, noisy failure of :c:func:`PyCapsule_SetName`
+    was deemed preferable to silent failure here.  If this is
+    inconvenient, feel free to modify your local
+    copy as you see fit.)
+
+You can find :file:`capsulethunk.h` in the Python source distribution
+as `Doc/includes/capsulethunk.h <https://hg.python.org/cpython/file/default/Doc/includes/capsulethunk.h>`_.
+We also include it as ``py3c/capsulethunk.h`` for your convenience:

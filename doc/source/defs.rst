@@ -33,6 +33,7 @@ Py_SIZE                      ✔             ✔
 PyVarObject_HEAD_INIT        ✔             ✔
 Py_TPFLAGS_HAVE_WEAKREFS     ✔             → 0
 Py_TPFLAGS_HAVE_ITER         ✔             → 0
+PyCapsule_*                  see below     ✔
 ============================ ============= ==============
 
 Legend:
@@ -62,3 +63,9 @@ The following non-trivial macros are defined:
 
     :c:func:`PY3C_RICHCMP`
         | See :c:func:`docs <PY3C_RICHCMP>`. (Purely a convenience macro, same in both versions.)
+
+    :ref:`PyCapsule_* <capsulethunk>`
+        | Capsules are included in Python 2.7 and 3.1+.
+        | For 2.6 and 3.0, the the Python documentation provides
+        | a compatibility header, which is distributed with py3c for
+        | convenience.

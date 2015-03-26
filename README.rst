@@ -52,7 +52,8 @@ Contribute
 License
 -------
 
-The code is licensed under the MIT license.
+The code is licensed under the MIT license, except capsulethunk.h,
+which is (as part of Python documentation) available under the PSF license.
 The documentation is licensed under CC-BY-SA 3.0.
 
-See the files LICENSE.MIT and doc/LICENSE.CC-BY-SA-3.0.
+See the files LICENSE.MIT, LICENCE.PSF and doc/LICENSE.CC-BY-SA-3.0.

@@ -222,11 +222,17 @@ PyCObject to PyCapsule
 
 The `PyCObject API <https://docs.python.org/3.1/c-api/cobject.html>`_ has been
 removed in Python 3.2.
-The replacement, `PyCapsule <https://docs.python.org/3/c-api/capsule.html#capsules>`_,
-is available in Python 2.7 and 3.1+.
+You should instead use its replacement, `PyCapsule <https://docs.python.org/3/c-api/capsule.html#capsules>`_.
 
-If your project uses PyCObject, and can afford dropping support for Python 2.6,
-drop the support and start using PyCapsule instead.
+PyCapsule is available in Python 2.7 and 3.1+.
+If you need to support Python 2.6, you can use ``capsulethunk.h``, which
+implements the PyCapsule API (with some limitations) in terms of PYCObject.
+It is explained in `C Porting HOWTO from the Python documentation
+<https://docs.python.org/3/howto/cporting.html#cobject-replaced-with-capsule>`_.
+
+If you use py3c, you can include this header as ``<py3c/capsulethunk.h>``.
+It is not included from ``<py3c.h>``, and it comes under a different license.
+
 
 
 .. index::
@@ -396,22 +402,6 @@ to define an initialization function, and return the created module from it::
     }
 
 
-.. index::
-    double: Porting; PyCObject
-    double: Porting; PyCapsule
-
-PyCObject to PyCapsule
-~~~~~~~~~~~~~~~~~~~~~~
-
-As mentioned in the Modernization section, `PyCObject <https://docs.python.org/3.1/c-api/cobject.html>`_
-has been removed in Python 3.2, and the replacement, `PyCapsule <https://docs.python.org/3/c-api/capsule.html#capsules>`_,
-is available in Python 2.7 and 3.1+.
-
-Unfortunately, py3c does not yet provide the PyCapsule API for Python 2.6.
-Patches are welcome.
-Use ``#if IS_PY3`` in the meantime.
-
-
 Other changes
 ~~~~~~~~~~~~~
 
@@ -490,6 +480,8 @@ Remove the ``py3c.h`` header, and fix the compile errors.
 
 *   Replace Py_RETURN_NOTIMPLEMENTED by its expansion, unless you either
     support Python 3.3+ only or keep the ``py3c/comparison.h`` header.
+
+*   Drop ``capsulethunk.h``, if you're using it.
 
 *   Remove any code in ``#if !IS_PY3`` blocks, and the ifs around
     ``#if IS_PY3`` ones.

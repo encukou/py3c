@@ -43,6 +43,9 @@ from Lennart Regebro's book "Porting to Python 3",
 the `C porting guide <https://docs.python.org/3/howto/cporting.html>`_
 from Python documentation, and the py3c headers for macros to use.
 
+The py3c library lives `at Github <https://github.com/encukou/py3c>`_.
+See the README for installation instructions.
+
 
 Overview
 ========

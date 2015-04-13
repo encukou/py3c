@@ -13,12 +13,14 @@ Before you start adding Python 3 compatibility to your C extension,
 consider your options:
 
 * .. index:: CFFI
+
   If you are writing a wrapper for a C library, take a look at
   `CFFI <https://cffi.readthedocs.org>`_, a C Foreign Function Interface
   for Python. This lets you call C from Python 2.6+ and 3.2+, as well as PyPy.
   A C compiler is required for development, but not for installation.
 
 * .. index:: Cython
+
   For more complex code, consider `Cython <http://cython.org/>`_,
   which compiles a Python-like language to C, has great support for
   interfacing with C libraries, and generates code that works on
@@ -357,7 +359,44 @@ there's no need to change at this point.
 
 
 .. index::
+    double: Porting; Argument parsing
+    double: Porting; PyArg_Parse
+    double: Porting; Py_BuildValue
+
+Argument Parsing
+~~~~~~~~~~~~~~~~
+
+The format codes for argument-parsing functions of the PyArg_Parse family
+have changed somewhat.
+
+In Python 3, the ``s``, ``z``, ``es``, ``es#`` and ``U`` (plus the new ``C``)
+codes accept only Unicode strings, while ``c`` and ``S`` only accept bytes.
+
+Formats accepting Unicode strings usually encode to char* using UTF-8.
+Specifically, these are ``s``, ``s*``, ``s#``, ``z``, ``z*``, ``z#``, and also
+``es``, ``et``, ``es#``, and ``et#`` when the encoding argument is set to NULL.
+In Python 2, the default encoding was used instead.
+
+There is no variant of ``z`` for bytes, which means htere's no built-in way to
+accept "bytes or NULL" as a ``char*``.
+If you need this, write an ``O&`` converter.
+
+Python 2 lacks an ``y`` code, which, in Python 3, works on byte objects.
+The use cases needing ``bytes`` in Python 3 and ``str`` in Python 2 should be
+rare; if needed, use ``#ifdef IS_PY3`` to select a compatible PyArg_Parse call.
+
+..
+    XXX: Write an O& converter for "z" and "y"
+    XXX: Write/document handling pathnames safely and portably; see
+        PyUnicode_FSConverter/PyUnicode_FSDecoder
+
+Compare the `Python 2 <https://docs.python.org/2/c-api/arg.html>`_ and `Python 3 <https://docs.python.org/3/c-api/arg.html>`_
+docs for full details.
+
+
+.. index::
     double: Porting; Module Initialization
+
 
 Module initialization
 ~~~~~~~~~~~~~~~~~~~~~

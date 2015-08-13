@@ -8,13 +8,6 @@
 Porting guide for Python C Extensions
 =====================================
 
-.. toctree::
-   :hidden:
-
-   1. Modernization <guide-modernization>
-   2. Porting <guide-porting>
-   3. Cleanup <guide-cleanup>
-
 This guide is written for authors of *C extensions* for Python, who want to
 make their extension compatible with Python 3. It provides comprehensive,
 step-by-step porting instructions.
@@ -59,8 +52,15 @@ The py3c library lives `at Github <https://github.com/encukou/py3c>`_.
 See the README for installation instructions.
 
 
-Overview
-========
+.. toctree::
+   :hidden:
+
+   1. Modernization <guide-modernization>
+   2. Porting <guide-porting>
+   3. Cleanup <guide-cleanup>
+
+
+.. rubric:: Overview
 
 Porting a C extension to Python 3 involves three phases:
 
@@ -91,5 +91,5 @@ On the other hand, *applications* can often switch at once,
 dropping Python 2 support as soon as the porting is done.
 
 
-Ready? The :doc:`guide-modernization` chapter is waiting!
+Ready? The :doc:`guide-modernization` section is waiting!
 

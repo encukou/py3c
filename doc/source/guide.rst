@@ -15,6 +15,10 @@ Porting guide for Python C Extensions
    2. Porting <guide-porting>
    3. Cleanup <guide-cleanup>
 
+This guide is written for authors of *C extensions* for Python, who want to
+make their extension compatible with Python 3. It provides comprehensive,
+step-by-step porting instructions.
+
 Before you start adding Python 3 compatibility to your C extension,
 consider your options:
 

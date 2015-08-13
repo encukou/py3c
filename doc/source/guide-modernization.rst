@@ -10,8 +10,10 @@
 Modernization
 =============
 
-Many of Python 3's improvements have been backported to Python 2.6,
-so you can start using them immediately.
+Before porting a C extension to Python 3, you'll need to make sure that
+you're not using features deprecated even in Python 2.
+Also, many of Python 3's improvements have been backported to Python 2.6,
+and using them will make the porting process easier.
 
 For all changes you do, be sure add tests to ensure you do not break anything.
 

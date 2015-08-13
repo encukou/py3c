@@ -10,9 +10,13 @@
 Porting – Adding Support for Python 3
 =====================================
 
+After you :doc:`modernize <guide-modernization>` your C extension to use the
+latest features available in Python 2, it is time to address the differences
+between Python 2 and 3.
+
 The recommended way to port is keeping single-source compatibility between
 Python 2 and 3, until support Python 2 can be safely dropped.
-For Python code, one can use libraries like `six <https://pypi.python.org/pypi/six/>`_
+For Python code, you can use libraries like `six <https://pypi.python.org/pypi/six/>`_
 and `future <http://python-future.org/>`_, and, failing that,
 ``if sys.version_info >= (3, 0):`` blocks for conditional code.
 For C, the py3c library provides common tools, and for special cases you can use

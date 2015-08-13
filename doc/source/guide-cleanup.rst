@@ -10,14 +10,15 @@
 Cleanup – Dropping Support for Python 2
 =======================================
 
-When your users are not using Python 2 any more, or you need to use one of
-Python 3's irresistible new features, you can convert the project to use
-Python 3 only.
+When users of your C extension are not using Python 2 any more, or you need to
+use one of Python 3's irresistible new features, you can convert the project to
+use Python 3 only.
 As mentioned earlier, it is usually not a good idea to do this until you
-have support for both Pythons.
+have full support for both Pythons.
 
-With py3c, this basically amounts to expanding all its compat macros.
-Remove the ``py3c.h`` header, and fix the compile errors.
+With py3c, dropping Python 2 basically amounts to expanding all its compat
+macros.
+In other words, remove the ``py3c.h`` header, and fix the compile errors.
 
 *   .. index::
         double: Cleanup; Strings

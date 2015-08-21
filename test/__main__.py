@@ -18,6 +18,10 @@ class StringSubclass(str): pass
 
 
 class StringChecks(unittest.TestCase):
+    if sys.version_info < (2, 7):
+        def assertIs(self, left, right):
+            self.assertTrue(left is right)
+
     def test_type(self):
         self.assertIs(test_py3c.str_type, str)
 

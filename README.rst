@@ -17,7 +17,7 @@ Design principles
 Versions
 --------
 
-Projects using py3c will be compatible with CPython 2.6, 2.7, and 3.2+.
+Projects using py3c will be compatible with CPython 2.6, 2.7, and 3.3+.
 
 
 Guides

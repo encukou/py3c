@@ -72,13 +72,13 @@ If a "cmp"-style function is provided by the C library,
 use ``PY3C_RICHCMP(mytype_cmp(obj1, obj2), 0, op)``.
 
 Also, py3c defines the `Py_RETURN_NOTIMPLEMENTED <https://docs.python.org/3/c-api/object.html#c.Py_RETURN_NOTIMPLEMENTED>`_
-macro if it's not provided by your Python version (3.2 and lower).
+macro if it's not provided by your Python version (3.3 and lower).
 
 Note that if you use PY3C_RICHCMP, you will need to include the header
 ``py3c/comparison.h`` (or copy the macro to your code) even after your port
 to Python 3 is complete.
 The is also needed for Py_RETURN_NOTIMPLEMENTED until you drop support for
-Python 3.2.
+Python 3.3.
 
 .. note::
 
@@ -162,7 +162,7 @@ PyCObject to PyCapsule
 ~~~~~~~~~~~~~~~~~~~~~~
 
 The `PyCObject API <https://docs.python.org/3.1/c-api/cobject.html>`_ has been
-removed in Python 3.2.
+removed in Python 3.3.
 You should instead use its replacement, `PyCapsule <https://docs.python.org/3/c-api/capsule.html#capsules>`_.
 
 PyCapsule is available in Python 2.7 and 3.1+.

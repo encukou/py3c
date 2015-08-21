@@ -19,7 +19,7 @@ consider your options:
 
   If you are writing a wrapper for a C library, take a look at
   `CFFI <https://cffi.readthedocs.org>`_, a C Foreign Function Interface
-  for Python. This lets you call C from Python 2.6+ and 3.2+, as well as PyPy.
+  for Python. This lets you call C from Python 2.6+ and 3.3+, as well as PyPy.
   A C compiler is required for development, but not for installation.
 
 * .. index:: Cython
@@ -27,7 +27,7 @@ consider your options:
   For more complex code, consider `Cython <http://cython.org/>`_,
   which compiles a Python-like language to C, has great support for
   interfacing with C libraries, and generates code that works on
-  Python 2.6+ and 3.2+.
+  Python 2.6+ and 3.3+.
 
 Using CFFI or Cython will make your code more maintainable in the long run,
 at the cost of rewriting the entire extension.
@@ -70,11 +70,11 @@ Porting a C extension to Python 3 involves three phases:
    After this phase, the project will support Python 2.6+.
 2. :doc:`Porting <guide-porting>`,
    where support for Python 3 is introduced, but Python 2 compatibility is kept.
-   After this phase, the project will support Python 2.6+ and 3.2+.
+   After this phase, the project will support Python 2.6+ and 3.3+.
 3. :doc:`Cleanup <guide-cleanup>`,
    where support for Python 2 is removed, and you can start using
    Python 3-only features.
-   After this phase, the project will support Python 3.2+.
+   After this phase, the project will support Python 3.3+.
 
 The first two phases can be done simultaneously; I separate them here because
 the porting might require involved discussions/decisions about longer-term

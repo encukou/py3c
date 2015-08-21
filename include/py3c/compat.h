@@ -80,13 +80,11 @@
 
 static inline PyObject *PyStr_Concat(PyObject *left, PyObject *right) {
     PyObject *str = left;
-    Py_INCREF(left);
+    Py_INCREF(left);  // reference to old left will be stolen
     PyString_Concat(&str, right);
     if (str) {
-        Py_DECREF(left);
         return str;
     } else {
-        // reference to old string was stolen
         return NULL;
     }
 }

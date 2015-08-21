@@ -12,6 +12,6 @@ nuild-%:
 	cd test; rm -rvf build ; $* setup.py build
 
 test-%: nuild-%
-	PYTHONPATH=$(wildcard test/build/lib*) $* test/__main__.py
+	PYTHONPATH=$(wildcard test/build/lib*) $* test -v
 
 .PHONY: test

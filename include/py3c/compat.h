@@ -91,7 +91,7 @@ static inline PyObject *PyStr_Concat(PyObject *left, PyObject *right) {
     }
 }
 
-#define PyStr_AsUTF8String(str) PyString_AsEncodedObject(str, "UTF-8", "strict")
+#define PyStr_AsUTF8String(str) (Py_INCREF(str), (str))
 #define PyStr_AsUTF8 PyString_AsString
 #define PyStr_AsUTF8AndSize(pystr, sizeptr) \
     ((*sizeptr=PyString_Size(pystr)), PyString_AsString(pystr))

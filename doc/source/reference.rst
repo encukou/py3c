@@ -157,7 +157,10 @@ All follow the Python 3 API, except ``PyStr`` is substituted for ``PyUnicode``.
 
     Encode a string using UTF-8 and return the result as PyBytes.
 
-    | Python 2: :c:func:`PyString_AsEncodedObject(str, "UTF-8", "strict") <py2:PyString_AsEncodedObject>`
+    In Python 2, (where PyStr is bytes in UTF-8 encoding already),
+    this is a no-op.
+
+    | Python 2: identity
     | Python 3: :c:func:`PyUnicode_AsUTF8String <py3:PyUnicode_AsUTF8String>`
 
 .. c:function:: char *PyStr_AsUTF8AndSize(PyObject *str, Py_ssize_t *size)

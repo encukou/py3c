@@ -85,6 +85,46 @@ static PyObject *str_asutf8andsize_check(PyObject *mod, PyObject * o) {
 	return PyBool_FromLong(!strcmp(str, UTF8_STRING) && size == 36);
 }
 
+static PyObject *int_check(PyObject *mod, PyObject * o) {
+	return PyBool_FromLong(PyInt_Check(o));
+}
+
+static PyObject *int_checkexact(PyObject *mod, PyObject * o) {
+	return PyBool_FromLong(PyInt_CheckExact(o));
+}
+
+static PyObject *int_fromstring(PyObject *mod) {
+	return PyInt_FromString("8", NULL, 10);
+}
+
+static PyObject *int_fromlong(PyObject *mod) {
+	return PyInt_FromLong(8);
+}
+
+static PyObject *int_fromssize_t(PyObject *mod) {
+	return PyInt_FromSsize_t((Py_ssize_t)8);
+}
+
+static PyObject *int_fromsize_t(PyObject *mod) {
+	return PyInt_FromSize_t((size_t)8);
+}
+
+static PyObject *int_aslong_check(PyObject *mod, PyObject * o) {
+	return PyBool_FromLong(PyInt_AsLong(o) == 8);
+}
+
+static PyObject *int_aslong_macro_check(PyObject *mod, PyObject * o) {
+	return PyBool_FromLong(PyInt_AS_LONG(o) == 8);
+}
+
+static PyObject *int_asunsignedlonglongmask_check(PyObject *mod, PyObject * o) {
+	return PyBool_FromLong(PyInt_AsUnsignedLongLongMask(o) == 8);
+}
+
+static PyObject *int_asssize_t_check(PyObject *mod, PyObject * o) {
+	return PyBool_FromLong(PyInt_AsSsize_t(o) == 8);
+}
+
 #define FUNC(style, name) { #name, (PyCFunction)name, style, NULL }
 
 static PyMethodDef methods[] = {
@@ -103,6 +143,18 @@ static PyMethodDef methods[] = {
 	FUNC(METH_O, str_asutf8string),
 	FUNC(METH_O, str_asutf8_check),
 	FUNC(METH_O, str_asutf8andsize_check),
+
+	FUNC(METH_O, int_check),
+	FUNC(METH_O, int_checkexact),
+	FUNC(METH_NOARGS, int_fromstring),
+	FUNC(METH_NOARGS, int_fromlong),
+	FUNC(METH_NOARGS, int_fromssize_t),
+	FUNC(METH_NOARGS, int_fromsize_t),
+	FUNC(METH_O, int_aslong_check),
+	FUNC(METH_O, int_aslong_macro_check),
+	FUNC(METH_O, int_asunsignedlonglongmask_check),
+	FUNC(METH_O, int_asssize_t_check),
+
 	{ NULL }
 };
 
@@ -120,6 +172,9 @@ MODULE_INIT_FUNC(test_py3c)
 
 	if (PyModule_AddObject(m, "str_type", (PyObject *)&PyStr_Type)) goto error;
 	Py_INCREF(&PyStr_Type);
+
+	if (PyModule_AddObject(m, "int_type", (PyObject *)&PyInt_Type)) goto error;
+	Py_INCREF(&PyInt_Type);
 
     return m;
 

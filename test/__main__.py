@@ -15,13 +15,16 @@ if PY3:
 
 
 class StringSubclass(str): pass
+class IntSubclass(int): pass
 
 
-class StringChecks(unittest.TestCase):
+class TestCase(unittest.TestCase):
     if sys.version_info < (2, 7):
         def assertIs(self, left, right):
             self.assertTrue(left is right)
 
+
+class StringChecks(TestCase):
     def test_type(self):
         self.assertIs(test_py3c.str_type, str)
 
@@ -90,6 +93,41 @@ class StringChecks(unittest.TestCase):
         self.assertTrue(test_py3c.str_asstring_check(TEXT_STRING))
         self.assertFalse(test_py3c.str_asstring_check("---"))
         self.assertRaises(TypeError, test_py3c.str_asstring_check, 8)
+
+
+class IntChecks(TestCase):
+    def test_type(self):
+        self.assertIs(test_py3c.int_type, int)
+
+    def test_check(self):
+        self.assertTrue(test_py3c.int_check(8))
+        self.assertFalse(test_py3c.int_check("abc"))
+        self.assertTrue(test_py3c.int_check(IntSubclass()))
+        self.assertEqual(test_py3c.int_check(2**1000), PY3)
+
+    def test_check_exact(self):
+        self.assertTrue(test_py3c.int_checkexact(8))
+        self.assertFalse(test_py3c.int_checkexact("abc"))
+        self.assertFalse(test_py3c.int_checkexact(IntSubclass()))
+        self.assertEqual(test_py3c.int_checkexact(2**1000), PY3)
+
+    def test_from(self):
+        self.assertEqual(test_py3c.int_fromstring(), 8)
+        self.assertEqual(test_py3c.int_fromlong(), 8)
+        self.assertEqual(test_py3c.int_fromssize_t(), 8)
+        self.assertEqual(test_py3c.int_fromsize_t(), 8)
+
+    def test_as(self):
+        self.assertTrue(test_py3c.int_aslong_check(8))
+        self.assertTrue(test_py3c.int_aslong_macro_check(8))
+        self.assertTrue(test_py3c.int_asunsignedlonglongmask_check(8))
+        self.assertTrue(test_py3c.int_asssize_t_check(8))
+
+
+all_tests = unittest.TestSuite([
+    unittest.TestLoader().loadTestsFromTestCase(StringChecks),
+    unittest.TestLoader().loadTestsFromTestCase(IntChecks),
+])
 
 
 if __name__ == '__main__':

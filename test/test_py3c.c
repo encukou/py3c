@@ -1,4 +1,5 @@
 #include <Python.h>
+#include "structmember.h"
 #include <py3c.h>
 
 #define UTF8_STRING "test string \xe1\xba\x87\xc3\xad\xc5\xa5\xc4\xa7 \xc5\xae\xc5\xa2\xe1\xb8\x9e\xe2\x88\x9e \xe2\x98\xba"
@@ -125,6 +126,11 @@ static PyObject *int_asssize_t_check(PyObject *mod, PyObject * o) {
 	return PyBool_FromLong(PyInt_AsSsize_t(o) == 8);
 }
 
+
+static PyObject *return_notimplemented(PyObject *mod) {
+	Py_RETURN_NOTIMPLEMENTED;
+}
+
 #define FUNC(style, name) { #name, (PyCFunction)name, style, NULL }
 
 static PyMethodDef methods[] = {
@@ -155,19 +161,102 @@ static PyMethodDef methods[] = {
 	FUNC(METH_O, int_asunsignedlonglongmask_check),
 	FUNC(METH_O, int_asssize_t_check),
 
+	FUNC(METH_NOARGS, return_notimplemented),
+
 	{ NULL }
 };
 
+static PyTypeObject test_py3c_NumberType;
+
+typedef struct {
+	PyObject_HEAD
+	int number;
+} test_py3c_Number;
+
+static PyMemberDef Number_members[] = {
+	{"value", T_INT, offsetof(test_py3c_Number, number), 0, "the value as an int"},
+	{NULL}
+};
+
+static int Number_init(test_py3c_Number *self, PyObject *args, PyObject *kwds)
+{
+	static char *kwlist[] = {"num", NULL};
+
+	if (! PyArg_ParseTupleAndKeywords(args, kwds, "i", kwlist,
+	                                  &self->number))
+		return -1;
+
+	return 0;
+}
+
+static PyObject* Number_richcmp(PyObject *obj1, PyObject *obj2, int op)
+{
+	test_py3c_Number *self = (test_py3c_Number *)obj1;
+	if (PyObject_TypeCheck(obj2, &test_py3c_NumberType)) {
+		test_py3c_Number *other = (test_py3c_Number *)obj2;
+		return PY3C_RICHCMP(self->number, other->number, op);
+	}
+	if (PyInt_Check(obj2)) {
+		return PY3C_RICHCMP(self->number, PyInt_AsLong(obj2), op);
+	}
+	Py_RETURN_NOTIMPLEMENTED;
+}
+
+static PyTypeObject test_py3c_NumberType = {
+	PyVarObject_HEAD_INIT(NULL, 0)
+	"test_py3c.Number",        /*tp_name*/
+	sizeof(test_py3c_Number),  /*tp_basicsize*/
+	0,                         /*tp_itemsize*/
+	0,                         /*tp_dealloc*/
+	0,                         /*tp_print*/
+	0,                         /*tp_getattr*/
+	0,                         /*tp_setattr*/
+	0,                         /*tp_compare*/
+	0,                         /*tp_repr*/
+	0,                         /*tp_as_number*/
+	0,                         /*tp_as_sequence*/
+	0,                         /*tp_as_mapping*/
+	0,                         /*tp_hash */
+	0,                         /*tp_call*/
+	0,                         /*tp_str*/
+	0,                         /*tp_getattro*/
+	0,                         /*tp_setattro*/
+	0,                         /*tp_as_buffer*/
+	Py_TPFLAGS_DEFAULT,        /*tp_flags*/
+	"A mutable object that stores an int",      /* tp_doc */
+	0,                         /* tp_traverse */
+	0,                         /* tp_clear */
+	Number_richcmp,            /* tp_richcompare */
+	0,                         /* tp_weaklistoffset */
+	0,                         /* tp_iter */
+	0,                         /* tp_iternext */
+	0,                         /* tp_methods */
+	Number_members,            /* tp_members */
+	0,                         /* tp_getset */
+	0,                         /* tp_base */
+	0,                         /* tp_dict */
+	0,                         /* tp_descr_get */
+	0,                         /* tp_descr_set */
+	0,                         /* tp_dictoffset */
+	(initproc)Number_init,     /* tp_init */
+	0,                         /* tp_alloc */
+	PyType_GenericNew,         /* tp_new */
+};
+
+
 static struct PyModuleDef moduledef = {
-    PyModuleDef_HEAD_INIT,
-    .m_name = "test_py3c",
-    .m_doc = PyDoc_STR("Testing module for py3c."),
-    .m_size = -1,
-    .m_methods = methods,
+	PyModuleDef_HEAD_INIT,
+	.m_name = "test_py3c",
+	.m_doc = PyDoc_STR("Testing module for py3c."),
+	.m_size = -1,
+	.m_methods = methods,
 };
 
 MODULE_INIT_FUNC(test_py3c)
 {
+	if (PyType_Ready(&test_py3c_NumberType) < 0)
+		return NULL;
+
 	PyObject *m = PyModule_Create(&moduledef);
 
 	if (PyModule_AddObject(m, "str_type", (PyObject *)&PyStr_Type)) goto error;
@@ -175,6 +264,9 @@ MODULE_INIT_FUNC(test_py3c)
 
 	if (PyModule_AddObject(m, "int_type", (PyObject *)&PyInt_Type)) goto error;
 	Py_INCREF(&PyInt_Type);
+
+	Py_INCREF(&test_py3c_NumberType);
+	PyModule_AddObject(m, "Number", (PyObject *)&test_py3c_NumberType);
 
     return m;
 

@@ -2,6 +2,7 @@
 
 import unittest
 import sys
+import operator
 
 import test_py3c
 
@@ -124,10 +125,45 @@ class IntChecks(TestCase):
         self.assertTrue(test_py3c.int_asssize_t_check(8))
 
 
-all_tests = unittest.TestSuite([
-    unittest.TestLoader().loadTestsFromTestCase(StringChecks),
-    unittest.TestLoader().loadTestsFromTestCase(IntChecks),
-])
+class TypeChecks(TestCase):
+    def test_return_notimplemented(self):
+        self.assertIs(test_py3c.return_notimplemented(), NotImplemented)
+
+    def test_number(self):
+        num = test_py3c.Number(3)
+        self.assertEqual(num.value, 3)
+        num.value = 5
+        self.assertEqual(num.value, 5)
+
+    def test_number_number_equality(self):
+        three = test_py3c.Number(3)
+        three2 = test_py3c.Number(3)
+        five = test_py3c.Number(5)
+        self.assertEqual(three, three)
+        self.assertEqual(three, three2)
+        self.assertNotEqual(three, five)
+
+    def test_number_int_equality(self):
+        three = test_py3c.Number(3)
+        five = test_py3c.Number(5)
+        self.assertEqual(three, 3)
+        self.assertNotEqual(three, 5)
+
+    def test_all_comparisons(self):
+        three = test_py3c.Number(3)
+        three2 = test_py3c.Number(3)
+        five = test_py3c.Number(5)
+        for op in (operator.eq, operator.ne, operator.gt, operator.lt,
+                   operator.ge, operator.le):
+            self.assertEqual(op(three, three), op(3, 3))
+            self.assertEqual(op(three, three2), op(3, 3))
+            self.assertEqual(op(three, five), op(3, 5))
+            self.assertEqual(op(five, three), op(5, 3))
+
+            self.assertEqual(op(three, 3), op(3, 3))
+            self.assertEqual(op(3, three), op(3, 3))
+            self.assertEqual(op(three, 5), op(3, 5))
+            self.assertEqual(op(5, three), op(5, 3))
 
 
 if __name__ == '__main__':

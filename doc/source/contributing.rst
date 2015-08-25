@@ -26,7 +26,7 @@ Automatic testing is set up at Travis CI:
        :alt: Build status
        :target: https://travis-ci.org/encukou/py3c
 
-To test the code locally run (using GNU make)::
+To test the code locally, you can run (using GNU make)::
 
     $ make test
 
@@ -36,3 +36,16 @@ different interpreter, run for example::
     $ make test-python35
 
 
+Building the Docs
+=================
+
+To build the docs, you need `Sphinx <http://sphinx-doc.org/>`_.
+If it's not in your system's package manager, it can be installed with::
+
+    $ pip install --user sphinx
+
+To build the HTML documentation, do::
+
+    $ make doc
+
+For more docs options, run `make` in the `doc` directory.

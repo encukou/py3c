@@ -2,6 +2,10 @@ all:
 	echo "Available targets:"
 	echo "    make test"
 	echo "    make test-<interpreter>"
+	echo "    make doc"
+
+doc:
+	cd doc && $(MAKE) html
 
 test:
 	$(MAKE) test-python2
@@ -15,4 +19,4 @@ build-%:
 test-%: build-%
 	PYTHONPATH=$(wildcard test/build/lib*) $* test -v
 
-.PHONY: test
+.PHONY: test doc

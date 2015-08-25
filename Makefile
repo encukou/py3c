@@ -8,10 +8,10 @@ test:
 
 # TODO: A better way to build & use one-off extensions?
 
-nuild-%:
+build-%:
 	cd test; rm -rvf build ; $* setup.py build
 
-test-%: nuild-%
+test-%: build-%
 	PYTHONPATH=$(wildcard test/build/lib*) $* test -v
 
 .PHONY: test

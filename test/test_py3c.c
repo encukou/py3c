@@ -1,9 +1,14 @@
 #include <Python.h>
 #include "structmember.h"
 #include <py3c.h>
+#include <py3c/capsulethunk.h>
 
 #define UTF8_STRING "test string \xe1\xba\x87\xc3\xad\xc5\xa5\xc4\xa7 \xc5\xae\xc5\xa2\xe1\xb8\x9e\xe2\x88\x9e \xe2\x98\xba"
 #define FORMAT_STRING "<%s:%d>"
+
+static char* test_ptr = "here is some data";
+static char* test_ptr2 = "here is some other data";
+static int capsule_count = 0;
 
 static PyObject *str_check(PyObject *mod, PyObject * o) {
 	return PyBool_FromLong(PyStr_Check(o));
@@ -133,6 +138,129 @@ static PyObject *return_notimplemented(PyObject *mod) {
 	Py_RETURN_NOTIMPLEMENTED;
 }
 
+
+static PyObject *capsule_get_count(PyObject *mod) {
+	return PyInt_FromLong(capsule_count);
+}
+
+static void capsule_destructor(PyObject *capsule) {
+	PyCapsule_GetName(capsule);
+	if (!PyErr_Occurred()) {
+		capsule_count--;
+	} else {
+		/* Better way to signal failure? */
+		capsule_count += 999;
+	}
+}
+
+static void capsule_alternate_destructor(PyObject *capsule) {
+	PyCapsule_GetName(capsule);
+	if (!PyErr_Occurred()) {
+		capsule_count -= 2;
+	} else {
+		/* Better way to signal failure? */
+		capsule_count += 999;
+	}
+}
+
+static PyObject *capsule_new(PyObject *mod) {
+	capsule_count++;
+	return PyCapsule_New(test_ptr, "test_capsule", capsule_destructor);
+}
+
+static PyObject *capsule_new_nullname(PyObject *mod) {
+	capsule_count++;
+	return PyCapsule_New(test_ptr, NULL, capsule_destructor);
+}
+
+static PyObject *capsule_getpointer_check(PyObject *mod, PyObject *o) {
+	void * ptr = PyCapsule_GetPointer(o, "test_capsule");
+	if (ptr == NULL && PyErr_Occurred()) return NULL;
+	return PyBool_FromLong(ptr == test_ptr);
+}
+
+static PyObject *capsule_getpointer_check_other(PyObject *mod, PyObject *o) {
+	void * ptr = PyCapsule_GetPointer(o, "test_capsule");
+	if (ptr == NULL && PyErr_Occurred()) return NULL;
+	return PyBool_FromLong(ptr == test_ptr2);
+}
+
+static PyObject *capsule_getpointer_nullname_check(PyObject *mod, PyObject *o) {
+	void * ptr = PyCapsule_GetPointer(o, NULL);
+	if (ptr == NULL && PyErr_Occurred()) return NULL;
+	return PyBool_FromLong(ptr == test_ptr);
+}
+
+static PyObject *capsule_getdestructor_check(PyObject *mod, PyObject *o) {
+	void * ptr = PyCapsule_GetDestructor(o);
+	if (ptr == NULL && PyErr_Occurred()) return NULL;
+	return PyBool_FromLong(ptr == capsule_destructor);
+}
+
+static PyObject *capsule_getcontext(PyObject *mod, PyObject *o) {
+	void * ptr = PyCapsule_GetContext(o);
+	if (ptr == NULL && PyErr_Occurred()) return NULL;
+	if (ptr == NULL) Py_RETURN_NONE;
+	return PyStr_FromString(ptr);
+}
+
+static PyObject *capsule_setcontext(PyObject *mod, PyObject *args) {
+	PyObject *o;
+	int ret;
+	const char *ptr;
+	if (!PyArg_ParseTuple(args, "Os", &o, &ptr)) return  NULL;
+	ret = PyCapsule_SetContext(o, (void*)ptr);
+	if (ret) return NULL;
+	Py_RETURN_NONE;
+}
+
+static PyObject *capsule_getname(PyObject *mod, PyObject *o) {
+	const char* ptr = PyCapsule_GetName(o);
+	if (ptr == NULL && PyErr_Occurred()) return NULL;
+	if (ptr == NULL) Py_RETURN_NONE;
+	return PyStr_FromString(ptr);
+}
+
+static PyObject *capsule_valid(PyObject *mod, PyObject *o) {
+	return PyBool_FromLong(PyCapsule_IsValid(o, "test_capsule"));
+}
+
+static PyObject *capsule_setdestructor(PyObject *mod, PyObject *o) {
+	int ret = PyCapsule_SetDestructor(o, capsule_alternate_destructor);
+	if (ret) return NULL;
+	capsule_count ++;
+	Py_RETURN_NONE;
+}
+
+static PyObject *capsule_setname(PyObject *mod, PyObject *args) {
+	PyObject *o;
+	int ret;
+	const char *ptr;
+	if (!PyArg_ParseTuple(args, "Os", &o, &ptr)) return  NULL;
+	ret = PyCapsule_SetName(o, ptr);
+	if (ret) return NULL;
+	Py_RETURN_NONE;
+}
+
+static PyObject *capsule_setpointer(PyObject *mod, PyObject *o) {
+	int ret = PyCapsule_SetPointer(o, test_ptr2);
+	if (ret) return NULL;
+	Py_RETURN_NONE;
+}
+
+static PyObject *capsule_import_check(PyObject *mod, PyObject *args) {
+	const char *name;
+	void *ptr;
+	if (!PyArg_ParseTuple(args, "s", &name)) return  NULL;
+	ptr = PyCapsule_Import(name, 0);
+	if (ptr == NULL && PyErr_Occurred()) return NULL;
+	return PyBool_FromLong(ptr == test_ptr2);
+}
+
+static PyObject *capsule_type_check(PyObject *mod, PyObject *o) {
+	return PyBool_FromLong(PyObject_TypeCheck(o, &PyCapsule_Type));
+}
+
 #define FUNC(style, name) { #name, (PyCFunction)name, style, NULL }
 
 static PyMethodDef methods[] = {
@@ -164,6 +292,23 @@ static PyMethodDef methods[] = {
 	FUNC(METH_O, int_asssize_t_check),
 
 	FUNC(METH_NOARGS, return_notimplemented),
+
+	FUNC(METH_NOARGS, capsule_get_count),
+	FUNC(METH_NOARGS, capsule_new),
+	FUNC(METH_NOARGS, capsule_new_nullname),
+	FUNC(METH_O, capsule_getpointer_check),
+	FUNC(METH_O, capsule_getpointer_check_other),
+	FUNC(METH_O, capsule_getpointer_nullname_check),
+	FUNC(METH_O, capsule_getdestructor_check),
+	FUNC(METH_O, capsule_getcontext),
+	FUNC(METH_VARARGS, capsule_setcontext),
+	FUNC(METH_O, capsule_getname),
+	FUNC(METH_O, capsule_valid),
+	FUNC(METH_O, capsule_setdestructor),
+	FUNC(METH_VARARGS, capsule_setname),
+	FUNC(METH_O, capsule_setpointer),
+	FUNC(METH_VARARGS, capsule_import_check),
+	FUNC(METH_O, capsule_type_check),
 
 	{ NULL }
 };
@@ -256,10 +401,15 @@ static struct PyModuleDef moduledef = {
 
 MODULE_INIT_FUNC(test_py3c)
 {
-	if (PyType_Ready(&test_py3c_NumberType) < 0)
-		return NULL;
+	PyObject *capsule = NULL;
+	PyObject *m = NULL;
 
-	PyObject *m = PyModule_Create(&moduledef);
+	if (PyType_Ready(&test_py3c_NumberType) < 0) goto error;
+
+	capsule = PyCapsule_New(test_ptr2, "test_py3c.capsule", NULL);
+	if (capsule == NULL) goto error;
+
+	m = PyModule_Create(&moduledef);
 
 	if (PyModule_AddObject(m, "str_type", (PyObject *)&PyStr_Type)) goto error;
 	Py_INCREF(&PyStr_Type);
@@ -268,10 +418,13 @@ MODULE_INIT_FUNC(test_py3c)
 	Py_INCREF(&PyInt_Type);
 
 	Py_INCREF(&test_py3c_NumberType);
-	PyModule_AddObject(m, "Number", (PyObject *)&test_py3c_NumberType);
+	if (PyModule_AddObject(m, "Number", (PyObject *)&test_py3c_NumberType)) goto error;
 
-    return m;
+	if (PyModule_AddObject(m, "capsule", capsule)) goto error;
+
+	return m;
 
 error:
+	Py_XDECREF(capsule);
 	return NULL;
 }

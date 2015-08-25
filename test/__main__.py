@@ -91,9 +91,14 @@ class StringChecks(TestCase):
             self.assertEqual(test_py3c.str_asutf8string(TEXT_STRING), TEXT_STRING.encode('utf-8'))
 
     def test_asutf8(self):
-        self.assertTrue(test_py3c.str_asstring_check(TEXT_STRING))
-        self.assertFalse(test_py3c.str_asstring_check("---"))
-        self.assertRaises(TypeError, test_py3c.str_asstring_check, 8)
+        self.assertTrue(test_py3c.str_asutf8_check(TEXT_STRING))
+        self.assertFalse(test_py3c.str_asutf8_check("---"))
+        self.assertRaises(TypeError, test_py3c.str_asutf8_check, 8)
+
+    def test_asutf8andsize(self):
+        self.assertTrue(test_py3c.str_asutf8andsize_check(TEXT_STRING))
+        self.assertFalse(test_py3c.str_asutf8andsize_check("---"))
+        self.assertRaises(TypeError, test_py3c.str_asutf8andsize_check, 8)
 
 
 class IntChecks(TestCase):

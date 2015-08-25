@@ -26,16 +26,16 @@
      || ((PY_VERSION_HEX >= 0x03000000) \
       && (PY_VERSION_HEX <  0x03010000)) )
 
-#define __PyCapsule_GetField(capsule, field, default_value) \
+#define __PyCapsule_GetField(capsule, field, error_value) \
     ( PyCapsule_CheckExact(capsule) \
         ? (((PyCObject *)capsule)->field) \
-        : (default_value) \
+        : (PyErr_SetString(PyExc_TypeError, "CObject required"), error_value) \
     ) \
 
 #define __PyCapsule_SetField(capsule, field, value) \
     ( PyCapsule_CheckExact(capsule) \
-        ? (((PyCObject *)capsule)->field = value), 1 \
-        : 0 \
+        ? (((PyCObject *)capsule)->field = value), 0 \
+        : (PyErr_SetString(PyExc_TypeError, "CObject required"), 1) \
     ) \
 
 
@@ -58,7 +58,7 @@
 
 
 #define PyCapsule_GetDestructor(capsule) \
-    __PyCapsule_GetField(capsule, destructor)
+    __PyCapsule_GetField(capsule, destructor, NULL)
 
 #define PyCapsule_SetDestructor(capsule, dtor) \
     __PyCapsule_SetField(capsule, destructor, dtor)
@@ -82,10 +82,10 @@ PyCapsule_SetName(PyObject *capsule, const char *unused)
 
 
 #define PyCapsule_GetContext(capsule) \
-    __PyCapsule_GetField(capsule, descr)
+    __PyCapsule_GetField(capsule, desc, NULL)
 
 #define PyCapsule_SetContext(capsule, context) \
-    __PyCapsule_SetField(capsule, descr, context)
+    __PyCapsule_SetField(capsule, desc, context)
 
 
 static void *

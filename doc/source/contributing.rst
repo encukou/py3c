@@ -24,6 +24,7 @@ Automatic testing is set up at Travis CI:
 
     .. image:: https://travis-ci.org/encukou/py3c.svg?branch=master
        :alt: Build status
+       :target: https://travis-ci.org/encukou/py3c
 
 To test the code locally run (using GNU make)::
 

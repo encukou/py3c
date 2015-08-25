@@ -3,6 +3,7 @@
 import unittest
 import sys
 import operator
+import gc
 
 import test_py3c
 
@@ -171,5 +172,35 @@ class TypeChecks(TestCase):
             self.assertEqual(op(5, three), op(5, 3))
 
 
+def main():
+    try:
+        unittest.main()
+    except SystemExit as e:
+        if e.code != 0:
+            raise
+
+
 if __name__ == '__main__':
-    unittest.main()
+    main()
+
+    if hasattr(sys, 'gettotalrefcount'):
+        # For debug builds of Python, verify we don't leak references
+        RUNS = 10
+        WARMUP = 2
+
+        baseline = None
+        gc.collect()
+        refcounts = [None] * RUNS
+
+        for i in range(RUNS):
+            main()
+            gc.collect()
+            refcounts[i] = sys.gettotalrefcount()
+
+        del refcounts[:WARMUP]
+        if all(r == refcounts[0] for r in refcounts):
+            print('Reference counts are stable')
+        else:
+            print(refcounts)
+            print('Reference counts are not stable')
+            exit('FAIL')

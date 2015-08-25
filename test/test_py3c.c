@@ -54,6 +54,8 @@ static PyObject *str_format(PyObject *mod, PyObject *args) {
 }
 
 static PyObject *str_interninplace(PyObject *mod, PyObject *o) {
+	/* we have a borrowed reference; need to own it */
+	Py_INCREF(o);
 	PyStr_InternInPlace(&o);
 	return o;
 }

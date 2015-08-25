@@ -8,7 +8,7 @@ test_py3c_module = Extension(
 
 setup_args = dict(
     name='test_py3c',
-    version='1.0',
+    version='0.0',
     description = '',
     ext_modules = [test_py3c_module]
 )

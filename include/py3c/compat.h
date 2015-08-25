@@ -44,7 +44,7 @@
 #define PyInt_AsLong PyLong_AsLong
 #define PyInt_AS_LONG PyLong_AS_LONG
 #define PyInt_AsUnsignedLongLongMask PyLong_AsUnsignedLongLongMask
-#define PyInt_AsSSize_t PyLong_AsSSize_t
+#define PyInt_AsSsize_t PyLong_AsSsize_t
 
 /* Module init */
 

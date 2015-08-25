@@ -1,6 +1,7 @@
 all:
 	echo "Available targets:"
 	echo "    make test"
+	echo "    make test-<interpreter>"
 
 test:
 	$(MAKE) test-python2

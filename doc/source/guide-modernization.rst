@@ -163,16 +163,12 @@ PyCObject to PyCapsule
 
 The `PyCObject API <https://docs.python.org/3.1/c-api/cobject.html>`_ has been
 removed in Python 3.3.
-You should instead use its replacement, `PyCapsule <https://docs.python.org/3/c-api/capsule.html#capsules>`_.
+You should instead use its replacement, `PyCapsule <https://docs.python.org/3/c-api/capsule.html#capsules>`_,
+which is available in Python 2.7 and 3.1+.
 
-PyCapsule is available in Python 2.7 and 3.1+.
 If you need to support Python 2.6, you can use ``capsulethunk.h``, which
 implements the PyCapsule API (with some limitations) in terms of PYCObject.
-It is explained in `C Porting HOWTO from the Python documentation
-<https://docs.python.org/3/howto/cporting.html#cobject-replaced-with-capsule>`_.
-
-If you use py3c, you can include this header as ``<py3c/capsulethunk.h>``.
-It is not included from ``<py3c.h>``, and it comes under a different license.
+Please see the :doc:`CObject porting docs <capsulethunk>` for instructions.
 
 
 Done!

@@ -1,5 +1,4 @@
-/* This file is copied from Python documentation:
- * From https://hg.python.org/cpython/file/3.4/Doc/includes/capsulethunk.h
+/* Written by Larry Hastings for the Python documentation.
  *
  * See here for license and redistribution information:
  * https://docs.python.org/3/license.html

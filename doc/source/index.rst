@@ -69,3 +69,5 @@ Oh, and you should pronounce "py3c" with a hard "c", if you can manage to do so.
    defs
    reference
    contributing
+
+   special-guides

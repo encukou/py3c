@@ -2,6 +2,7 @@
 #include "structmember.h"
 #include <py3c.h>
 #include <py3c/capsulethunk.h>
+#include <py3c/fileshim.h>
 
 #define UTF8_STRING "test string \xe1\xba\x87\xc3\xad\xc5\xa5\xc4\xa7 \xc5\xae\xc5\xa2\xe1\xb8\x9e\xe2\x88\x9e \xe2\x98\xba"
 #define FORMAT_STRING "<%s:%d>"
@@ -261,6 +262,53 @@ static PyObject *capsule_type_check(PyObject *mod, PyObject *o) {
 	return PyBool_FromLong(PyObject_TypeCheck(o, &PyCapsule_Type));
 }
 
+
+static PyObject *file_asfilewithmode(PyObject *mod, PyObject *args) {
+	PyObject *o;
+	const char *mode;
+	FILE *f;
+	if (!PyArg_ParseTuple(args, "Os", &o, &mode)) return NULL;
+	f = py3c_PyFile_AsFileWithMode(o, mode);
+	if (!f) return NULL;
+	return PyCapsule_New(f, "test_py3c._file", NULL);
+}
+
+static PyObject *file_fread(PyObject *mod, PyObject *o) {
+	char data[200];
+	size_t size;
+	FILE *f = PyCapsule_GetPointer(o, "test_py3c._file");
+	if (!f) return NULL;
+	size = fread(data, 1, 200, f);
+	return PyStr_FromStringAndSize(data, size);
+}
+
+static PyObject *file_fwrite(PyObject *mod, PyObject *args) {
+	PyObject *o;
+	char *data;
+	Py_ssize_t size = 0;
+	FILE *f;
+	if (!PyArg_ParseTuple(args, "Os#", &o, &data, &size)) return NULL;
+	f = PyCapsule_GetPointer(o, "test_py3c._file");
+	if (!f) return NULL;
+	size = fwrite(data, 1, size, f);
+	if (size < 0) return PyErr_SetFromErrno(PyExc_OSError);
+	fflush(f);
+	Py_RETURN_NONE;
+}
+
+static PyObject *file_fseek(PyObject *mod, PyObject *args) {
+	PyObject *o;
+	size_t pos = 0;
+	FILE *f;
+	int ret;
+	if (!PyArg_ParseTuple(args, "Oi", &o, &pos)) return NULL;
+	f = PyCapsule_GetPointer(o, "test_py3c._file");
+	if (!f) return NULL;
+	ret = fseek(f, pos, SEEK_SET);
+	if (ret < 0) return PyErr_SetFromErrno(PyExc_OSError);
+	Py_RETURN_NONE;
+}
+
 #define FUNC(style, name) { #name, (PyCFunction)name, style, NULL }
 
 static PyMethodDef methods[] = {
@@ -309,6 +357,11 @@ static PyMethodDef methods[] = {
 	FUNC(METH_O, capsule_setpointer),
 	FUNC(METH_VARARGS, capsule_import_check),
 	FUNC(METH_O, capsule_type_check),
+
+	FUNC(METH_VARARGS, file_asfilewithmode),
+	FUNC(METH_O, file_fread),
+	FUNC(METH_VARARGS, file_fwrite),
+	FUNC(METH_VARARGS, file_fseek),
 
 	{ NULL }
 };

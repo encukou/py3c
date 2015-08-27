@@ -212,6 +212,24 @@ to define an initialization function, and return the created module from it::
     }
 
 
+The File API
+~~~~~~~~~~~~
+
+The :c:type:`PyFile <py2:PyFileObject>` API was severely reduced
+:c:func:`in Python 3 <py3:PyFile_FromFd>`.
+The new version is specifically intended for internal error reporting
+in Python.
+
+Native Python file objects are officially no longer backed by ``FILE*``.
+
+Use the Python API from the :py:mod:`py3:io` module instead of handling files
+in C. The Python API supports all kinds of file-like objects, not just
+built-in files – though, admittedly, it's cumbersome to use from plain C.
+
+If you really need to access an API that deals with ``FILE*`` only
+(e.g. for debugging), see py3c's limited :doc:`file API shim <fileshim>`.
+
+
 Other changes
 ~~~~~~~~~~~~~
 

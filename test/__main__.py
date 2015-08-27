@@ -4,6 +4,9 @@ import unittest
 import sys
 import operator
 import gc
+import tempfile
+import os
+import shutil
 
 import test_py3c
 
@@ -272,6 +275,44 @@ class CapsuleChecks(TestCase):
             self.assertRaises(NotImplementedError, test_py3c.capsule_setname, capsule, "")
         else:
             self.assertRaises(error, test_py3c.capsule_setname, capsule, "")
+
+
+class FileShimChecks(TestCase):
+    def setUp(self):
+        self.dirname = tempfile.mkdtemp()
+        self.filename = os.path.join(self.dirname, 'f')
+
+    def tearDown(self):
+        shutil.rmtree(self.dirname)
+
+    def test_bad_type(self):
+        err = AttributeError, ValueError, SystemError
+        self.assertRaises(err, test_py3c.file_asfilewithmode, 3, "hello")
+
+    def test_read_write(self):
+        with open(self.filename, 'w') as pyfile:
+            pass
+        with open(self.filename, 'w+') as pyfile:
+            f = test_py3c.file_asfilewithmode(pyfile, 'w+')
+            test_py3c.file_fwrite(f, "hello")
+            test_py3c.file_fseek(f, 0)
+            val = test_py3c.file_fread(f)
+            self.assertEqual(val, "hello")
+
+    def test_read(self):
+        with open(self.filename, 'w') as pyfile:
+            pyfile.write('hello')
+        with open(self.filename, 'r') as pyfile:
+            f = test_py3c.file_asfilewithmode(pyfile, "r")
+            val = test_py3c.file_fread(f)
+            self.assertEqual(val, "hello")
+
+    def test_write(self):
+        with open(self.filename, 'w') as pyfile:
+            f = test_py3c.file_asfilewithmode(pyfile, "w")
+            test_py3c.file_fwrite(f, "hello")
+        with open(self.filename, 'r') as pyfile:
+            self.assertEqual(pyfile.read(), 'hello')
 
 
 def main():

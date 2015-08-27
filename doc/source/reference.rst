@@ -568,3 +568,18 @@ lists the limitations of this solution.
 
     | Python 2.6: backported
     | 2.7 and 3.x: :c:func:`(provided) <py3:PyCapsule_Import>`
+
+
+.. _fileshim:
+
+Files
+=====
+
+::
+
+    #include <py3c/fileshim.h>  // (*NOT* included in <py3c.h>)
+
+.. c:function:: py3c_PyFile_AsFileWithMode(PyObject *py_file, const char *mode)
+
+    Quick-and-dirty substitute for the removed  :c:func:`py2:PyFile_AsFile`.
+    Read the :doc:`file shim <fileshim>` chapter before using.

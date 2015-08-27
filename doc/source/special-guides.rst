@@ -13,7 +13,11 @@ Here is a list:
 * :doc:`PyCapsule API for Python 2.6 <capsulethunk>`:
     Porting PyCObject while retaining support for Python 2.6
 
+* :doc:`PyFile shim <fileshim>`:
+    Quick-and-dirty helpers for porting away from the removed PyFile API
+
 .. toctree::
    :hidden:
 
    capsulethunk
+   fileshim

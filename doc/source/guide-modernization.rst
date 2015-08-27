@@ -158,6 +158,8 @@ which have been available since Python 2.2.
     double: Modernization; PyCObject
     double: Modernization; PyCapsule
 
+.. _pycapsule-porting:
+
 PyCObject to PyCapsule
 ~~~~~~~~~~~~~~~~~~~~~~
 
@@ -165,10 +167,33 @@ The `PyCObject API <https://docs.python.org/3.1/c-api/cobject.html>`_ has been
 removed in Python 3.3.
 You should instead use its replacement, `PyCapsule <https://docs.python.org/3/c-api/capsule.html#capsules>`_,
 which is available in Python 2.7 and 3.1+.
+For the rationale behind Capsules, see `CPython issue 5630 <https://bugs.python.org/issue5630>`_.
 
 If you need to support Python 2.6, you can use ``capsulethunk.h``, which
-implements the PyCapsule API (with some limitations) in terms of PYCObject.
-Please see the :doc:`CObject porting docs <capsulethunk>` for instructions.
+implements the PyCapsule API (with some limitations) in terms of PyCObject.
+For instructions, see the chapter :doc:`capsulethunk`.
+
+The port to PyCapsule API should be straightforward:
+
+* Instead of
+  :c:func:`PyCObject_FromVoidPtr(obj, destr) <py2:PyCObject_FromVoidPtr>`, use
+  :c:func:`PyCapsule_New(obj, name, destr) <py3:PyCapsule_New>`.
+  If the capsule will be available as a module attribute, use
+  ``"<modulename>.<attrname>"`` for *name*.
+  Otherwise, use your best judgment, but try making the name unique.
+* Instead of :c:func:`PyCObject_FromVoidPtrAndDesc(obj, desc, destr) <py2:PyCObject_FromVoidPtrAndDesc>`,
+  use :c:func:`py3:PyCapsule_New` as above; then call
+  :c:func:`PyCapsule_SetContext(obj, desc) <py3:PyCapsule_SetContext>`.
+* Instead of :c:func:`PyCObject_AsVoidPtr(obj) <py2:PyCObject_AsVoidPtr>`,
+  use :c:func:`PyCapsule_GetPointer(obj, name) <py3:PyCapsule_GetPointer>`.
+  You will need to provide a capsule name, which is checked at runtime
+  as a form of type safety.
+* Instead of :c:func:`py2:PyCObject_GetDesc`,
+  use :c:func:`py3:PyCapsule_GetContext`.
+* Instead of :c:func:`py2:PyCObject_SetVoidPtr`,
+  use :c:func:`py3:PyCapsule_SetPointer`.
+* Change all CObject destructors to :c:type:`PyCapsule destructors <py3:PyCapsule_Destructor>`,
+  which take the PyCapsule object as their only argument.
 
 
 Done!

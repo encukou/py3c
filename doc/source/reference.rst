@@ -499,34 +499,72 @@ Capsules
 
     #include <py3c/capsulethunk.h>  // (*NOT* included in <py3c.h>)
 
-This header is copied from the `Python documentation <https://docs.python.org/3/howto/cporting.html#cobject-replaced-with-capsule>`_.
-The following text is adapted from its official docs:
+This file provides a PyCapsule API compatibility layer for Python 2.6.
 
-Simply write your code against the Capsule API and include this header file
-after Python.h.
-Your code will automatically use Capsules in versions of Python with Capsules,
-and switch to CObjects when Capsules are unavailable.
+Capsules are simulated in terms of PyCObject. The :doc:`capsulethunk` chapter
+lists the limitations of this solution.
 
-``capsulethunk.h`` simulates Capsules using CObjects.  However,
-:c:type:`CObject <py3:PyCObject>` provides no place to store the capsule's "name".
-As a result the simulated :c:type:`Capsule <py3:Capsule>` objects created by
-``capsulethunk.h`` behave slightly differently from real Capsules.  Specifically:
+.. c:macro:: PyCapsule_Type
 
-  * The name parameter passed in to :c:func:`PyCapsule_New` is ignored.
+    | Python 2.6: :c:type:`PyCObject_Type <py2:PyCObject>`
+    | 2.7 and 3.x: :c:type:`(provided) <py3:PyCapsule>`
 
-  * The name parameter passed in to :c:func:`PyCapsule_IsValid` and
-    :c:func:`PyCapsule_GetPointer` is ignored, and no error checking
-    of the name is performed.
+.. c:macro:: PyCapsule_CheckExact(PyObject *p)
 
-  * :c:func:`PyCapsule_GetName` always returns NULL.
+    | Python 2.6: :c:func:`PyCObject_Check <py2:PyCObject_Check>`
+    | 2.7 and 3.x: :c:func:`(provided) <py3:PyCapsule_CheckExact>`
 
-  * :c:func:`PyCapsule_SetName` always raises an exception and
-    returns failure.  (Since there's no way to store a name
-    in a CObject, noisy failure of :c:func:`PyCapsule_SetName`
-    was deemed preferable to silent failure here.  If this is
-    inconvenient, feel free to modify your local
-    copy as you see fit.)
+.. c:macro:: PyCapsule_IsValid(PyObject *capsule, const char *name)
 
-You can find :file:`capsulethunk.h` in the Python source distribution
-as `Doc/includes/capsulethunk.h <https://hg.python.org/cpython/file/default/Doc/includes/capsulethunk.h>`_.
-We also include it as ``py3c/capsulethunk.h`` for your convenience:
+    | Python 2.6: :c:func:`PyCObject_Check(capsule) <py2:PyCObject_Check>`
+    | 2.7 and 3.x: :c:func:`(provided) <py3:PyCapsule_IsValid>`
+
+.. c:macro:: PyCapsule_New(void *pointer, const char *name, PyCapsule_Destructor destructor)
+
+    | Python 2.6: :c:func:`PyCObject_FromVoidPtr(pointer, destructor) <py2:PyCObject_FromVoidPtr>`
+    | 2.7 and 3.x: :c:func:`(provided) <py3:PyCapsule_New>`
+
+.. c:macro:: PyCapsule_GetPointer(PyObject *capsule, const char *name)
+
+    | Python 2.6: :c:func:`PyCObject_AsVoidPtr(capsule) <py2:PyCObject_AsVoidPtr>` – name is not checked!
+    | 2.7 and 3.x: :c:func:`(provided) <py3:PyCapsule_GetPointer>`
+
+.. c:macro:: PyCapsule_SetPointer(PyObject *capsule, void *pointer)
+
+    | Python 2.6: uses CPython internals; effect similar to :c:func:`py2:PyCObject_SetVoidPtr`
+    | 2.7 and 3.x: :c:func:`(provided) <py3:PyCapsule_SetPointer>`
+
+.. c:macro:: PyCapsule_GetDestructor(PyObject *capsule)
+
+    | Python 2.6: uses CPython internals to get the a CObject's destructor
+    | 2.7 and 3.x: :c:func:`(provided) <py3:PyCapsule_GetDestructor>`
+
+.. c:macro:: PyCapsule_SetDestructor(PyObject *capsule, PyCapsule_Destructor destructor)
+
+    | Python 2.6: uses CPython internals to replace a CObject's destructor
+    | 2.7 and 3.x: :c:func:`(provided) <py3:PyCapsule_SetDestructor>`
+
+.. c:macro:: PyCapsule_GetName(PyObject *capsule)
+
+    | Python 2.6: NULL
+    | 2.7 and 3.x: :c:func:`(provided) <py3:PyCapsule_GetName>`
+
+.. c:macro:: PyCapsule_SetName(PyObject *capsule)
+
+    | Python 2.6: Always raises :py:class:`NotImplementedError`
+    | 2.7 and 3.x: :c:func:`(provided) <py3:PyCapsule_SetName>`
+
+.. c:macro:: PyCapsule_GetContext(PyObject *capsule)
+
+    | Python 2.6: uses CPython internals to get the CObject "desc" field
+    | 2.7 and 3.x: :c:func:`(provided) <py3:PyCapsule_GetContext>`
+
+.. c:macro:: PyCapsule_SetContext(PyObject *capsule, PyCapsule_Destructor destructor)
+
+    | Python 2.6: uses CPython internals to replace CObject "desc" field
+    | 2.7 and 3.x: :c:func:`(provided) <py3:PyCapsule_SetContext>`
+
+.. c:macro:: PyCapsule_Import(const char *name, int no_block)
+
+    | Python 2.6: backported
+    | 2.7 and 3.x: :c:func:`(provided) <py3:PyCapsule_Import>`

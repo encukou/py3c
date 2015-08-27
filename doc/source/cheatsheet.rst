@@ -89,4 +89,4 @@ CObject
 ~~~~~~~
 
 Use the `PyCapsule <https://docs.python.org/3/c-api/capsule.html#capsules>`_ API.
-If you need to support 2.6, you'll currently need ``#if PY_3`` blocks.
+If you need to support 2.6, see the chapter :doc:`capsulethunk`.

@@ -7,7 +7,8 @@
 Definitions in py3c
 ===================
 
-This table summarizes the various macros py3c defines.
+This table summarizes the various macros py3c defines,
+or mentions in the Porting Guide.
 
 ============================ ============= ==============
 Macro                        py2           py3
@@ -66,6 +67,4 @@ The following non-trivial macros are defined:
 
     :ref:`PyCapsule_* <capsulethunk>`
         | Capsules are included in Python 2.7 and 3.1+.
-        | For 2.6 and 3.0, the the Python documentation provides
-        | a compatibility header, which is distributed with py3c for
-        | convenience.
+        | For 2.6, see the chapter :doc:`capsulethunk`.

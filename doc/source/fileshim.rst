@@ -1,6 +1,5 @@
 ..
     Copyright (c) 2015, Red Hat, Inc. and/or its affiliates
-    Copyright (c) 2001-2015 Python Software Foundation; All Rights Reserved
     Licensed under CC-BY-SA-3.0; see the license file
 
 .. highlight:: c
@@ -20,15 +19,19 @@ by the :py:mod:`py3:io` module.
 
 But, in the real world, some C libraries only provide debugging output to
 ``FILE*``. For cases like this, py3c provides a quick-and-dirty replacement
-for :c:func:`py2:PyFile_AsFile`: ``py3c_PyFile_AsFileWithMode`` which takes
-a ``PyObject *`` (which must be a file with a working ``fileno()`` method) and
-a ``const char *mode``, which must be an appropriate mode argument for
-``fdopen``, and returns a ``FILE*``.
+for :c:func:`py2:PyFile_AsFile`:
 
-This function presents several caveats:
+.. c:function:: FILE* py3c_PyFile_AsFileWithMode(PyObject *py_file, const char *mode)
 
-* Only works on file-like objects backed by an actual file
-* All C-level writes should be done before additional
-  Python-level writes are allowed (e.g. by running Python code).
-* Though the function tries to flush, there is no guarantee that
-  writes will be reordered due to different layers of buffering.
+    Open a (file-backed) Python file object as ``FILE*``.
+
+    :param py_file: The file object, which must have a working ``fileno()`` method
+    :param mode: A mode appropriate for ``fdopen``, such as ``'r'`` or ``'w'``
+
+    This function presents several caveats:
+
+    * Only works on file-like objects backed by an actual file
+    * All C-level writes should be done before additional
+      Python-level writes are allowed (e.g. by running Python code).
+    * Though the function tries to flush, due to different layers of buffering
+      there is no guarantee that reads and writes will be ordered correctly.

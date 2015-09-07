@@ -166,9 +166,9 @@ Defining Extension Types
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 If your module defines extension types, i.e. variables of type ``PyTypeObject``
-(and related structured like ``PyNumberMethods`` and ``PyBufferProcs``),
+(and related structures like ``PyNumberMethods`` and ``PyBufferProcs``),
 you might need to make changes to these definitions.
-Please read the :doc:`Extension types <ext-types>` guide.
+Please read the :doc:`Extension types <ext-types>` guide for details.
 
 
 Module initialization

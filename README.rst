@@ -13,6 +13,8 @@ Design principles
 * Reduce chances of accidental subtle errors
 * Minimize boilerplate
 * Prefer the Python 3 way of doing things
+* Minimize semantic changes under Python 2
+
 
 Versions
 --------

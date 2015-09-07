@@ -35,17 +35,26 @@ The Bytes/Unicode split
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 The most painful change for extension authors is the bytes/unicode split:
-unlike Python 2's ``str`` or C's ``char*``, there is a sharp divide between
-*human-readable strings* and *binary data*.
+unlike Python 2's ``str`` or C's ``char*``, Python 3 introduces a sharp divide
+between *human-readable strings* and *binary data*.
 You will need to decide, for each string value you use, which of these two
 types you want.
 
 Make the division as sharp as possible: mixing the types tends to lead to utter chaos.
-Function that takes both Unicode strings and bytes should be rare,
-and should generally be convenience functions in your interface;
+Functions that take both Unicode strings and bytes (in a single Python version)
+should be rare, and should generally be convenience functions in your interface;
 not code deep in the internals.
 
-With py3c, the human-readable strings are PyStr_* (PyStr_FromString,
+However, you can use a concept of **native strings**: a type that corresponds
+to the ``str`` type in Python: PyBytes on Python 2, and PyUnicode in Python 3.
+This is the type that you will need to return from functions like ``__str__``
+and ``__repr__.
+
+Using the **native string** extensively is suitable for conservative projects:
+it affects the semantics under Python 2 as little as possible, while not
+requiring the resulting Python 3 API to feel contorted.
+
+With py3c, functions for the native string type are PyStr_* (PyStr_FromString,
 PyStr_Type, PyStr_Check, etc.). They correspond to
 `PyString <https://docs.python.org/2/c-api/string.html>`_ on Python 2,
 and `PyUnicode <https://docs.python.org/3/c-api/unicode.html>`_ on Python 3.
@@ -54,22 +63,20 @@ and `PyUnicode_* <https://docs.python.org/3/c-api/unicode.html>`_,
 except PyStr_Size (see below) and the deprecated PyUnicode_Encode;
 additionally `PyStr_AsUTF8String <https://docs.python.org/3/c-api/unicode.html#c.PyUnicode_AsUTF8String>`_ is defined.
 
+Keep in mind py3c expects that native strings are always encoded with ``utf-8``
+under Python 2. If you use a different encoding, you will need to convert
+between bytes and text manually.
+
 For binary data, use PyBytes_* (PyBytes_FromString, PyBytes_Type, PyBytes_Check,
-etc.). These correspond to PyString on Python 2, and Python 3 provides them
-directly.
+etc.). Python 3.x provides them under these names only; in Python 2.6+ they are
+aliases of PyString_*. (For even older Pythons, py3c also provides these aliases.)
 The supported API is the intersection of `PyString_* <https://docs.python.org/2/c-api/string.html>`_
 and `PyBytes_* <https://docs.python.org/3/c-api/bytes.html>`_,
 
 Porting mostly consists of replacing "``PyString_``" to either "``PyStr_``"
 or "``PyBytes_``"; just see the caveat about size below.
 
-You might meet two more string types. One is PyUnicode_*, which is provided by
-both Python versions directly, and should be used wherever you used PyUnicode
-in Python 2 code already.
-The other is PyString_*, the Python 2 type used to store both kinds of stringy
-data. This type is not in Python 3, and must be replaced.
-
-To summarize:
+To summarize the four different string type names:
 
 ============ ============= ============== ===================
 String kind  py2           py3            Use

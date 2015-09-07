@@ -54,6 +54,8 @@ The py3c library is available under the MIT license.
 This documentation is available under the Creative Commons Attribution-ShareAlike 3.0 Unported license.
 May they serve you well.
 
+The high-level history of py3c is chronicled in the :doc:`Changelog <changelog>`.
+
 If you'd like to contribute code, words, suggestions, bug reports, or anything else,
 do so at `the Github page <http://github.com/encukou/py3c>`_.
 For more info, see :doc:`Contributing <contributing>`.
@@ -68,6 +70,8 @@ Oh, and you should pronounce "py3c" with a hard "c", if you can manage to do so.
    cheatsheet
    defs
    reference
-   contributing
 
    special-guides
+
+   contributing
+   changelog

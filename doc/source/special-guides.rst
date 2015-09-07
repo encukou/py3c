@@ -7,8 +7,14 @@ Special Porting Guides
 ======================
 
 Some porting notes are mentioned outside the main guide, because they
-affect fewer project or need more extensive discussion.
+either, affect fewer project, or need more extensive discussion.
+They are linked from the main porting guide.
+
 Here is a list:
+
+* :doc:`Extension Types <ext-types>`:
+    Porting definitions of extension types (``PyTypeObject`` and related
+    objects like ``PyNumberMethods``)
 
 * :doc:`PyCapsule API for Python 2.6 <capsulethunk>`:
     Porting PyCObject while retaining support for Python 2.6
@@ -19,5 +25,6 @@ Here is a list:
 .. toctree::
    :hidden:
 
+   ext-types
    capsulethunk
    fileshim

@@ -162,6 +162,15 @@ docs for full details.
     double: Porting; Module Initialization
 
 
+Defining Extension Types
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+If your module defines extension types, i.e. variables of type ``PyTypeObject``
+(and related structured like ``PyNumberMethods`` and ``PyBufferProcs``),
+you might need to make changes to these definitions.
+Please read the :doc:`Extension types <ext-types>` guide.
+
+
 Module initialization
 ~~~~~~~~~~~~~~~~~~~~~
 
@@ -177,11 +186,11 @@ Module object creation with py3c is the same as in Python 3.
 First, create a PyModuleDef structure::
 
     static struct PyModuleDef moduledef = {
-        PyModuleDef_HEAD_INIT,
-        .m_name = "spam",
-        .m_doc = PyDoc_STR("Python wrapper for the spam submodule."),
-        .m_size = -1,
-        .m_methods = spam_methods,
+        PyModuleDef_HEAD_INIT,  /* m_base */
+        "spam",                 /* m_name */
+        NULL,                   /* m_doc */
+        -1,                     /* m_size */
+        spam_methods            /* m_methods */
     };
 
 Then, where a Python 2 module would have ::

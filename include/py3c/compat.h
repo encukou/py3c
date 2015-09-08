@@ -52,11 +52,6 @@
     PyMODINIT_FUNC PyInit_ ## name(void); \
     PyMODINIT_FUNC PyInit_ ## name(void)
 
-/* Types */
-
-#define Py_TPFLAGS_HAVE_WEAKREFS 0
-#define Py_TPFLAGS_HAVE_ITER 0
-
 #else
 
 /***** Python 2 *****/

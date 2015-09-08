@@ -170,6 +170,14 @@ If your module defines extension types, i.e. variables of type ``PyTypeObject``
 you might need to make changes to these definitions.
 Please read the :doc:`Extension types <ext-types>` guide for details.
 
+A common incompatibility comes from type flags, like
+:data:`Py_TPFLAGS_HAVE_WEAKREFS` and :data:`Py_TPFLAGS_HAVE_ITER`,
+which are removed in Python 3 (where the functionality is always present).
+If you are only using these flags in type definitions,
+(and *not* for example in :c:func:`PyType_HasFeature`),
+you can include ``<py3c/tpflags.h>`` to define them to zero under Python 3.
+For more information, read the :ref:`Type flags <tpflags>` section.
+
 
 Module initialization
 ~~~~~~~~~~~~~~~~~~~~~

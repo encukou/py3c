@@ -441,22 +441,6 @@ Module Initialization
     | Python 3: :c:func:`(provided) <py3:PyModule_Create>`
 
 
-Types
-~~~~~
-
-Removed type flags are defined as 0 in Python 3.
-
-.. c:macro:: Py_TPFLAGS_HAVE_WEAKREFS
-
-    | Python 2: :c:data:`(provided) <py2:Py_TPFLAGS_HAVE_WEAKREFS>`
-    | Python 3: ``0``
-
-.. c:macro:: Py_TPFLAGS_HAVE_ITER
-
-    | Python 2: :c:data:`(provided) <py2:Py_TPFLAGS_HAVE_ITER>`
-    | Python 3: ``0``
-
-
 
 Comparison Helpers
 ==================
@@ -488,6 +472,36 @@ Comparison Helpers
         ((op) == Py_LE) ? PyBool_FromLong((val1) <= (val2)) : \
         ((op) == Py_GE) ? PyBool_FromLong((val1) >= (val2)) : \
         (Py_INCREF(Py_NotImplemented), Py_NotImplemented)
+
+
+Types
+=====
+
+::
+
+    #include <py3c/tpflags.h>  /* (*NOT* included in <py3c.h>) */
+
+.. _tpflags_ref:
+
+Removed type flags are defined as ``0`` in Python 3, which is
+*only* useful in type definitions.
+
+In particular, these macros are *not* suitable for :c:func:`PyType_HasFeature`
+in Python 3.
+
+.. c:macro::  Py_TPFLAGS_HAVE_GETCHARBUFFER
+.. c:macro::  Py_TPFLAGS_HAVE_SEQUENCE_IN
+.. c:macro::  Py_TPFLAGS_HAVE_INPLACEOPS
+.. c:macro::  Py_TPFLAGS_CHECKTYPES
+.. c:macro::  Py_TPFLAGS_HAVE_RICHCOMPARE
+.. c:macro::  Py_TPFLAGS_HAVE_WEAKREFS
+.. c:macro::  Py_TPFLAGS_HAVE_ITER
+.. c:macro::  Py_TPFLAGS_HAVE_CLASS
+.. c:macro::  Py_TPFLAGS_HAVE_INDEX
+.. c:macro:: Py_TPFLAGS_HAVE_NEWBUFFER
+
+    | Python 2: (provided), e.g. :data:`Py_TPFLAGS_HAVE_WEAKREFS <py2:Py_TPFLAGS_HAVE_WEAKREFS>`
+    | Python 3: ``0``
 
 
 .. _capsulethunk:

@@ -7,6 +7,7 @@
 .. index::
     double: Porting; PyTypeObject
 
+=======================
 Porting extension types
 =======================
 
@@ -16,8 +17,33 @@ You might wish to refresh your memory with the Python documentation on this
 here we concentrate only on the differences.
 
 
+.. _tpflags:
+
+Type Flags
+==========
+
+The most common incompatibility in type definition involves feature flags
+like :data:`Py_TPFLAGS_HAVE_WEAKREFS` and :data:`Py_TPFLAGS_HAVE_ITER`
+(see :ref:`Type flags reference <tpflags_ref>` for a full list).
+
+These flags indicate capabilities that are always present in Python 3,
+so the macros are only available in Python 2.
+Most projects can simply define these to 0 in Python 3.
+
+However, another use of the macros is feature checking, as in
+:c:func:`PyType_HasFeature(cls, Py_TPFLAGS_HAVE_ITER) <py2:PyType_HasFeature>`.
+Defining the flags to ``0`` would cause that test to fail under Python 3,
+where it should instead always succeed!
+So, in these cases, the check should be done as
+``(IS_PY3 || PyType_HasFeature(cls, Py_TPFLAGS_HAVE_ITER))``.
+
+If your project does not use ``PyType_HasFeature``, or bypasses the check under
+Python 3 as above, you can include ``<py3c/tpflags.h>`` to define missing type
+flags as 0.
+
+
 PyTypeObject
-------------
+============
 
 The differences in PyTypeObject itself are fairly minor.
 The ``tp_compare`` field became ``void *tp_reserved``, and is ignored.
@@ -46,7 +72,7 @@ not affect initialization.
     double: Porting; PyNumberMethods
 
 PyNumberMethods
----------------
+===============
 
 The ``PyNumberMethods`` structure, used to implement number-like behavior
 and operators, was changed.
@@ -119,7 +145,7 @@ of ``nb_nonzero``, if using that.
     double: Porting; PyBufferProcs
 
 PyBufferProcs
--------------
+=============
 
 The buffer protocol changed significantly in Python 3.
 Kindly read the :ref:`documentation <py3:bufferobjects>`, and implement

@@ -32,9 +32,8 @@ Py_TYPE                      ✔             ✔
 Py_REFCNT                    ✔             ✔
 Py_SIZE                      ✔             ✔
 PyVarObject_HEAD_INIT        ✔             ✔
-Py_TPFLAGS_HAVE_WEAKREFS     ✔             → 0
-Py_TPFLAGS_HAVE_ITER         ✔             → 0
 PyCapsule_*                  see below     ✔
+Py_TPFLAGS_*                 ✔             see below
 ============================ ============= ==============
 
 Legend:
@@ -68,3 +67,8 @@ The following non-trivial macros are defined:
     :ref:`PyCapsule_* <capsulethunk>`
         | Capsules are included in Python 2.7 and 3.1+.
         | For 2.6, see the chapter :doc:`capsulethunk`.
+
+    :ref:`Py_TPFLAGS_* <tpflags>`
+        Type flags that were removed in Python 3 are defined to ``0`` in
+        ``<py3c/tpflags.h>``.
+        Read the documentation before including the file.

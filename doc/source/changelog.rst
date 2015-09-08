@@ -10,6 +10,13 @@ Version History
 v0.3 (upcoming)
 ---------------
 
+Breaking changes:
+
+* Type flags moved to "tpflags.h", which is not included by default.
+  See the warning in the file, or in documentation.
+
+Other changes:
+
 * Integrated capsulethunk.h
 * Added PyFile_AsFile shim
 * Discuss porting type definitions in the guide

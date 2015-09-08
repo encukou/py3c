@@ -8,7 +8,7 @@
 PyCapsule API for Python 2.6
 ============================
 
-The ``capsulethunk.h`` heared, implements the PyCapsule API
+The ``capsulethunk.h`` header implements the PyCapsule API
 (with some limitations) in terms of PYCObject.
 It is only necessary for compatibility with Python 2.6 (or 3.0).
 

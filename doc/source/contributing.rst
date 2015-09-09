@@ -36,6 +36,19 @@ different interpreter, run for example::
     $ make test-python35
 
 
+Packaging
+=========
+
+To install system-wide (for example, if you are a distro packager),
+use ``make install``.
+There are no configure/compile steps for this header-only library.
+
+The install target honors GNU standard `environment variables`__ to specify
+installation directories.
+
+__ https://www.gnu.org/prep/standards/html_node/Directory-Variables.html
+
+
 Building the Docs
 =================
 

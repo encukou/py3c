@@ -50,8 +50,7 @@ Pick the docs you wish to read:
 Project info
 ============
 
-The py3c library is available under the MIT license, except capsulethunk.h,
-which is (as part of Python documentation) available under the PSF license.
+The py3c library is available under the MIT license.
 This documentation is available under the Creative Commons Attribution-ShareAlike 3.0 Unported license.
 May they serve you well.
 

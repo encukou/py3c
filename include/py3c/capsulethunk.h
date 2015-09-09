@@ -1,21 +1,8 @@
-/* Written by Larry Hastings for the Python documentation.
+/* Copyright (c) 2011, Larry Hastings
+ * Copyright (c) 2015, py3c contributors
+ * Licensed under the MIT license; see py3c.h
  *
- * See here for license and redistribution information:
- * https://docs.python.org/3/license.html
- *
- * ----------------------------------------------------------------------
- * Copyright (c) 2000-2015 Python Software Foundation.
- * All rights reserved.
- *
- * Copyright (c) 2000 BeOpen.com.
- * All rights reserved.
- *
- * Copyright (c) 1995-2000 Corporation for National Research Initiatives.
- * All rights reserved.
- *
- * Copyright (c) 1991-1995 Stichting Mathematisch Centrum.
- * All rights reserved.
- *
+ * (Note: Relicensed from PSF: http://bugs.python.org/issue24937#msg250191 )
  */
 
 #ifndef __CAPSULETHUNK_H

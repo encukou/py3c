@@ -48,5 +48,5 @@
 /* Py_TPFLAGS_TYPE_SUBCLASS is still optional in py3 */
 
 /* py 3.4 adds Py_TPFLAGS_HAVE_FINALIZE */
-
+#endif
 #endif /* _PY3C_TPFLAGS_H_ */

@@ -136,6 +136,12 @@ class IntChecks(TestCase):
         self.assertTrue(test_py3c.int_asssize_t_check(8))
 
 
+class FloatChecks(TestCase):
+    def test_fromstring(self):
+        self.assertEqual(test_py3c.float_fromstring('42'), 42.0)
+        self.assertEqual(test_py3c.float_fromstring('-10.5'), -10.5)
+
+
 class TypeChecks(TestCase):
     def test_return_notimplemented(self):
         self.assertIs(test_py3c.return_notimplemented(), NotImplemented)

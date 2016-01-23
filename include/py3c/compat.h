@@ -126,8 +126,8 @@ typedef struct PyModuleDef {
 
 #define MODULE_INIT_FUNC(name) \
     static PyObject *PyInit_ ## name(void); \
-    void init ## name(void); \
-    void init ## name(void) { PyInit_ ## name(); } \
+    PyMODINIT_FUNC init ## name(void); \
+    PyMODINIT_FUNC init ## name(void) { PyInit_ ## name(); } \
     static PyObject *PyInit_ ## name(void)
 
 

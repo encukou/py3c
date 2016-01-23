@@ -127,6 +127,16 @@ there's no need to change at this point.
     double: Porting; PyArg_Parse
     double: Porting; Py_BuildValue
 
+Floats
+~~~~~~
+
+In Python 3, the function :c:func:`PyFloat_FromString <PyFloat_FromString>`
+lost its second, ignored argument.
+
+The py3c headers redefine the function to take one argument even in Python 2.
+You will need to remove the excess argument from all calls.
+
+
 Argument Parsing
 ~~~~~~~~~~~~~~~~
 

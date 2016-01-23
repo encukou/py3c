@@ -21,6 +21,7 @@ PyString_*                   ✔             *error*
 PyStr_AsUTF8AndSize          see below     ✔
 PyInt_*                      ✔             → PyLong_*
 PyLong_*                     ✔             ✔
+PyFloat_FromString           see below     ✔
 PyModuleDef                  see below     ✔
 PyModuleDef_HEAD_INIT        → 0           ✔
 PyModule_Create              see below     ✔
@@ -50,6 +51,9 @@ The following non-trivial macros are defined:
           * no encoding (string is assumed to be UTF-8-encoded)
           * size pointer must not be NULL
           * size may be stored even if an error occurs
+
+    :c:func:`PyFloat_FromSting`
+        | Python 2: Only takes one argument, as in Python 3.
 
     :c:type:`PyModuleDef`
         | Python 2: contains ``m_name``, ``m_doc``, ``m_size``, ``m_methods`` fields from Python 3, and ``m_base`` to accomodate PyModuleDef_HEAD_INIT.

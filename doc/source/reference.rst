@@ -394,8 +394,8 @@ PyFloat
 
 .. c:function:: PyObject* PyFloat_FromString(PyObject *str)
 
-    Create a :c:type:`PyFloatObject` object.  The signature has been
-    adapted to follow the Python 3 API.
+    Create a :c:type:`PyFloatObject` object.  The signature
+    follows the Python 3 API, even on Python 2.
 
     | Python 2: :c:func:`PyFloat_FromString(str, NULL) <py2:PyFloat_FromString>`
     | Python 3: :c:func:`PyFloat_FromString(str) <py3:PyFloat_FromString>`

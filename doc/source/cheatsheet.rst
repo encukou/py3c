@@ -31,8 +31,8 @@ Use whatever you used in Python 2. For py3-only code, use ``PyLong``.
 Floats
 ~~~~~~
 
-Don't pass the useless second argument to PyFloat_FromString as you needed
-to do in Python 2.
+Don't pass the useless second argument to :c:func:`PyFloat_FromString` as
+you needed to do in Python 2.
 
 
 Comparisons

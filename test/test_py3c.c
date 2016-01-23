@@ -135,6 +135,11 @@ static PyObject *int_asssize_t_check(PyObject *mod, PyObject * o) {
 }
 
 
+static PyObject *float_fromstring(PyObject *mod, PyObject *o) {
+	return PyFloat_FromString(o);
+}
+
+
 static PyObject *return_notimplemented(PyObject *mod) {
 	Py_RETURN_NOTIMPLEMENTED;
 }
@@ -338,6 +343,8 @@ static PyMethodDef methods[] = {
 	FUNC(METH_O, int_aslong_macro_check),
 	FUNC(METH_O, int_asunsignedlonglongmask_check),
 	FUNC(METH_O, int_asssize_t_check),
+
+    FUNC(METH_O, float_fromstring),
 
 	FUNC(METH_NOARGS, return_notimplemented),
 

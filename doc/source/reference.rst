@@ -389,6 +389,17 @@ All follow the Python 2 API.
     | Python 2: :c:func:`(provided) <py2:PyInt_AsSsize_t>`
     | Python 3: :c:func:`PyLong_AsSsize_t <py3:PyLong_AsSsize_t>`
 
+PyFloat
+~~~~~~~
+
+.. c:function:: PyObject* PyFloat_FromString(PyObject *str)
+
+    Create a :c:type:`PyFloatObject` object.  The signature has been
+    adapted to follow the Python 3 API.
+
+    | Python 2: :c:func:`PyFloat_FromString(str, NULL) <py2:PyFloat_FromString>`
+    | Python 3: :c:func:`PyFloat_FromString(str) <py3:PyFloat_FromString>`
+
 
 Module Initialization
 ~~~~~~~~~~~~~~~~~~~~~

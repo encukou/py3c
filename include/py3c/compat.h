@@ -105,6 +105,10 @@ static inline PyObject *PyStr_Concat(PyObject *left, PyObject *right) {
 #define PyBytes_ConcatAndDel PyString_ConcatAndDel
 #define _PyBytes_Resize _PyString_Resize
 
+/* Floats */
+
+#define PyFloat_FromString(str) PyFloat_FromString(str, NULL)
+
 /* Module init */
 
 #define PyModuleDef_HEAD_INIT 0

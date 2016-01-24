@@ -18,14 +18,22 @@ doc:
 test:
 	$(MAKE) test-python2
 	$(MAKE) test-python3
+	$(MAKE) test-python2-cpp
+	$(MAKE) test-python3-cpp
 
 # TODO: A better way to build & use one-off extensions?
 
 build-%:
 	cd test; rm -rvf build ; $* setup.py build
 
+build-%-cpp:
+	cd test; rm -rvf build ; TEST_USE_CPP=yes $* setup.py build
+
 test-%: build-%
 	PYTHONPATH=$(wildcard test/build/lib*) $* test -v
+
+test-%-cpp: build-%-cpp
+	TEST_USE_CPP=yes PYTHONPATH=$(wildcard test/build/lib*) $* test -v
 
 py3c.pc: py3c.pc.in
 	sed -e's:@includedir@:$(realpath $(includedir)):' $< > $@

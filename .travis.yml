@@ -9,6 +9,16 @@ python:
   - "3.5-dev"
   - "nightly"
 
+env:
+  - TEST_USE_CPP=no
+  - TEST_USE_CPP=yes
+
+# XXX: The PyCapsule shim (2.6) doesn't work with C++
+matrix:
+  exclude:
+    - python: 2.6
+      env: TEST_USE_CPP=yes
+
 script: make test-python
 
 sudo: false

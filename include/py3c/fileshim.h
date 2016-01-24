@@ -18,12 +18,15 @@ Caveats:
 
 */
 
+static char FLUSH[] = "flush";
+static char EMPTY_STRING[] = "";
+
 static FILE* py3c_PyFile_AsFileWithMode(PyObject *py_file, const char *mode) {
     FILE *f;
     PyObject *ret;
     int fd;
 
-    ret = PyObject_CallMethod(py_file, "flush", "");
+    ret = PyObject_CallMethod(py_file, FLUSH, EMPTY_STRING);
     if (ret == NULL) {
         return NULL;
     }

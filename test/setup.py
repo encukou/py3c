@@ -4,6 +4,7 @@ test_py3c_module = Extension(
     'test_py3c',
     sources=['test_py3c.c'],
     include_dirs=['../include'],
+    extra_compile_args = ['--std=c++0x', '-l mylib'],
 )
 
 setup_args = dict(

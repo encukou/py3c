@@ -15,7 +15,7 @@
 #define __PyCapsule_GetField(capsule, field, error_value) \
     ( PyCapsule_CheckExact(capsule) \
         ? (((PyCObject *)capsule)->field) \
-        : (PyErr_SetString(PyExc_TypeError, "CObject required"), error_value) \
+        : (PyErr_SetString(PyExc_TypeError, "CObject required"), (error_value)) \
     ) \
 
 #define __PyCapsule_SetField(capsule, field, value) \
@@ -32,7 +32,7 @@
 
 
 #define PyCapsule_New(pointer, name, destructor) \
-    (PyCObject_FromVoidPtr(pointer, destructor))
+    (PyCObject_FromVoidPtr(pointer, (void (*)(void*)) (destructor)))
 
 
 #define PyCapsule_GetPointer(capsule, name) \
@@ -44,10 +44,10 @@
 
 
 #define PyCapsule_GetDestructor(capsule) \
-    __PyCapsule_GetField(capsule, destructor, NULL)
+    __PyCapsule_GetField(capsule, destructor, (void (*)(void*)) NULL)
 
 #define PyCapsule_SetDestructor(capsule, dtor) \
-    __PyCapsule_SetField(capsule, destructor, dtor)
+    __PyCapsule_SetField(capsule, destructor, (void (*)(void*)) dtor)
 
 
 /*
@@ -68,7 +68,7 @@ PyCapsule_SetName(PyObject *capsule, const char *unused)
 
 
 #define PyCapsule_GetContext(capsule) \
-    __PyCapsule_GetField(capsule, desc, NULL)
+    __PyCapsule_GetField(capsule, desc, (void*) NULL)
 
 #define PyCapsule_SetContext(capsule, context) \
     __PyCapsule_SetField(capsule, desc, context)

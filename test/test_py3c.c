@@ -152,7 +152,8 @@ static PyObject *capsule_get_count(PyObject *mod) {
 }
 
 static void capsule_destructor(PyObject *capsule) {
-	PyCapsule_GetName(capsule);
+	const char *name = PyCapsule_GetName(capsule);
+	(void) name;
 	if (!PyErr_Occurred()) {
 		capsule_count--;
 	} else {
@@ -162,7 +163,8 @@ static void capsule_destructor(PyObject *capsule) {
 }
 
 static void capsule_alternate_destructor(PyObject *capsule) {
-	PyCapsule_GetName(capsule);
+	const char *name = PyCapsule_GetName(capsule);
+	(void) name;
 	if (!PyErr_Occurred()) {
 		capsule_count -= 2;
 	} else {

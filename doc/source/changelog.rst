@@ -7,7 +7,7 @@ py3c Changes
 Version History
 ===============
 
-v0.5 (upcoming)
+v0.5 (2016-05-13)
 -----------------
 
 Packaging:

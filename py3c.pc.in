@@ -3,6 +3,10 @@ includedir=@includedir@
 
 Name: py3c
 Description: Python 2/3 compatibility layer for C extensions
-Requires: Python
+
+# Requires exactly one of "python" or "python3".
+#Requires: python
+#Requires: python3
+
 Version: 0.4
 Cflags: -I${includedir}

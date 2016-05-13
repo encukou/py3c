@@ -7,6 +7,14 @@ py3c Changes
 Version History
 ===============
 
+v0.5 (upcoming)
+-----------------
+
+Packaging:
+
+* Fix the pkgconfig file
+
+
 v0.4 (2016-05-13)
 -----------------
 

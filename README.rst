@@ -44,7 +44,9 @@ Alternately, py3c can be used as a header-only library:
 copy the headers to your project and use them.
 
 If you wish to install py3c system-wide (e.g. if you are a distro packager),
-read :doc:`installation`.
+see the Contributing_ chapter in the documentation.
+
+.. _Contributing: http://py3c.readthedocs.org/en/latest/contributing.html
 
 
 Contribute

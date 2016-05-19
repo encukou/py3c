@@ -7,6 +7,14 @@ py3c Changes
 Version History
 ===============
 
+v0.6 (2016-05-19)
+-----------------
+
+Packaging:
+
+* Fix file permissions when doing ``make instal``
+
+
 v0.5 (2016-05-13)
 -----------------
 

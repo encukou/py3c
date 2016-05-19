@@ -39,12 +39,12 @@ py3c.pc: py3c.pc.in
 	sed -e's:@includedir@:$(realpath $(includedir)):' $< > $@
 
 install: py3c.pc
-	mkdir -p $(includedir)/py3c
-	install include/py3c.h $(includedir)/py3c.h
-	install $(wildcard include/py3c/*.h) $(includedir)/py3c/
+	mkdir -p -m 0755 $(includedir)/py3c
+	install -m 0644 include/py3c.h $(includedir)/py3c.h
+	install -m 0644 $(wildcard include/py3c/*.h) $(includedir)/py3c/
 
-	mkdir -p $(pkgconfigdir)
-	install py3c.pc $(pkgconfigdir)/
+	mkdir -p -m 0755 $(pkgconfigdir)
+	install -m 0644 py3c.pc $(pkgconfigdir)/
 
 clean:
 	rm py3c.pc ||:

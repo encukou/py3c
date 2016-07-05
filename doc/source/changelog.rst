@@ -7,6 +7,14 @@ py3c Changes
 Version History
 ===============
 
+v0.7 (2016-07-05)
+-----------------
+
+Packaging:
+
+* Fix file shim tests on big endian architectures (bug in testsuite only)
+
+
 v0.6 (2016-05-19)
 -----------------
 

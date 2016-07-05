@@ -288,20 +288,33 @@ static PyObject *file_fread(PyObject *mod, PyObject *o) {
 	FILE *f = (FILE*) PyCapsule_GetPointer(o, "test_py3c._file");
 	if (!f) return NULL;
 	size = fread(data, 1, 200, f);
+	if (size > 199) {
+		return PyErr_Format(PyExc_AssertionError,
+			"size read is too big (%zu)", size);
+	}
 	return PyStr_FromStringAndSize(data, size);
 }
 
 static PyObject *file_fwrite(PyObject *mod, PyObject *args) {
 	PyObject *o;
-	char *data;
-	Py_ssize_t size = 0;
+	Py_buffer pybuf;
+	size_t size_written;
 	FILE *f;
-	if (!PyArg_ParseTuple(args, "Os#", &o, &data, &size)) return NULL;
+	if (!PyArg_ParseTuple(args, "Os*", &o, &pybuf)) return NULL;
 	f = (FILE*) PyCapsule_GetPointer(o, "test_py3c._file");
-	if (!f) return NULL;
-	size = fwrite(data, 1, size, f);
-	if (size < 0) return PyErr_SetFromErrno(PyExc_OSError);
+	if (!f) {
+		PyBuffer_Release(&pybuf);
+		return NULL;
+	}
+	size_written = fwrite(pybuf.buf, 1, pybuf.len, f);
+	if (size_written != (size_t)pybuf.len) {
+		PyBuffer_Release(&pybuf);
+		return PyErr_Format(PyExc_AssertionError,
+			"size written (%zu) != size of string (%zd)",
+			size_written, pybuf.len);
+	}
 	fflush(f);
+	PyBuffer_Release(&pybuf);
 	Py_RETURN_NONE;
 }
 

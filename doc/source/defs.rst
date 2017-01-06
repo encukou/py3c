@@ -35,13 +35,14 @@ Py_SIZE                      ✔             ✔
 PyVarObject_HEAD_INIT        ✔             ✔
 PyCapsule_*                  see below     ✔
 Py_TPFLAGS_*                 ✔             see below
+PyMem_Raw*                   =             =
 ============================ ============= ==============
 
 Legend:
 
     | ✔ – provided by Python
     | → – defined in py3c as a simple alias for
-    | = – provided by at least Python 3.4; py3c backports it to Python versions that don't define it
+    | = – provided by at least Python 3.5; py3c backports it to Python versions that don't define it
 
 The following non-trivial macros are defined:
 

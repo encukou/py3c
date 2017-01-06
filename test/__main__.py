@@ -321,6 +321,29 @@ class FileShimChecks(TestCase):
             self.assertEqual(pyfile.read(), 'hello')
 
 
+class RawMallocChecks(TestCase):
+    def test_raw_malloc(self):
+        test_py3c.test_raw_malloc()
+
+    def test_raw_malloc(self):
+        test_py3c.test_raw_calloc()
+
+    def test_raw_realloc(self):
+        test_py3c.test_raw_realloc()
+
+    def test_raw_realloc_null(self):
+        test_py3c.test_raw_realloc_null()
+
+    def test_raw_malloc_zerosize(self):
+        test_py3c.test_raw_malloc_zerosize()
+
+    def test_raw_calloc_zero(self):
+        test_py3c.test_raw_malloc_zerosize()
+
+    def test_raw_realloc_zero(self):
+        test_py3c.test_raw_malloc_zerosize()
+
+
 def main():
     try:
         unittest.main()

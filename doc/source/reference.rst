@@ -608,3 +608,40 @@ Files
 
     Quick-and-dirty substitute for the removed  :c:func:`py2:PyFile_AsFile`.
     Read the :doc:`file shim <fileshim>` chapter before using.
+
+
+Shims for New Conveniences in Python 3.4+
+=========================================
+
+::
+
+    #include <py3c/py3shims.h>  // (included in <py3c.h>)
+
+Raw Memory Allocation
+---------------------
+
+Python 3.4 adds several functions to manage “raw” memory in a way that the
+Python allocator is aware of it.
+These are safe replacements for stdlib's ``malloc``, ``realloc`` and ``free``.
+For convenience, ``py3c`` provides backports of these to earlier Python
+versions.
+
+The backports provided here simply use the C standard library functions,
+except they return unique pointers when zero bytes are requested.
+
+.. c:function:: PyMem_RawMalloc(size_t n)
+
+    Backport of :c:func:`py3:PyMem_RawMalloc`. Replacement for ``malloc``.
+
+.. c:function:: PyMem_RawRealloc(void* ptr, size_t n)
+
+    Backport of :c:func:`py3:PyMem_RawRealloc`. Replacement for ``realloc``.
+
+.. c:function:: PyMem_RawFree(void* ptr)
+
+    Backport of :c:func:`py3:PyMem_Free`. Replacement for ``free``.
+
+.. c:function:: PyMem_RawCalloc(size_t n, size_t s)
+
+    Backport of :c:func:`py3:PyMem_Calloc` from Python 3.5+.
+    Replacement for ``calloc``.

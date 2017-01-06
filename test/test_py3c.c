@@ -331,6 +331,70 @@ static PyObject *file_fseek(PyObject *mod, PyObject *args) {
 	Py_RETURN_NONE;
 }
 
+static PyObject *test_raw_malloc(PyObject *mod, PyObject *args) {
+	char *buf = (char*)PyMem_RawMalloc(1);
+	buf[0] = 'a';
+	PyMem_RawFree(buf);
+	Py_RETURN_NONE;
+}
+
+static PyObject *test_raw_calloc(PyObject *mod, PyObject *args) {
+	char *buf = (char*)PyMem_RawCalloc(1, 1);
+	buf[0] = 'a';
+	PyMem_RawFree(buf);
+	Py_RETURN_NONE;
+}
+
+static PyObject *test_raw_realloc(PyObject *mod, PyObject *args) {
+	char *buf = (char*)PyMem_RawMalloc(1);
+	buf[0] = 'a';
+	buf = (char*)PyMem_RawRealloc(buf, 2);
+	if (buf[0] != 'a') {
+		return PyErr_Format(PyExc_AssertionError,
+			"memory not preserved in PyMem_RawRealloc");
+    }
+	PyMem_RawFree(buf);
+	Py_RETURN_NONE;
+}
+
+static PyObject *test_raw_realloc_null(PyObject *mod, PyObject *args) {
+	char *buf = (char*)PyMem_RawRealloc(NULL, 2);
+	buf[0] = 'a';
+	PyMem_RawFree(buf);
+	Py_RETURN_NONE;
+}
+
+static PyObject *test_raw_malloc_zerosize(PyObject *mod, PyObject *args) {
+	char *buf = (char*)PyMem_RawMalloc(0);
+	if (buf == NULL) {
+		return PyErr_Format(PyExc_AssertionError,
+			"PyMem_RawMalloc(0) returned NULL");
+    }
+	PyMem_RawFree(buf);
+	Py_RETURN_NONE;
+}
+
+static PyObject *test_raw_calloc_zerosize(PyObject *mod, PyObject *args) {
+	char *buf = (char*)PyMem_RawCalloc(0, 0);
+	if (buf == NULL) {
+		return PyErr_Format(PyExc_AssertionError,
+			"PyMem_RawCalloc(0) returned NULL");
+    }
+	PyMem_RawFree(buf);
+	Py_RETURN_NONE;
+}
+
+static PyObject *test_raw_realloc_zerosize(PyObject *mod, PyObject *args) {
+	char *buf = (char*)PyMem_RawMalloc(1);
+	buf = (char*)PyMem_RawRealloc(buf, 0);
+	if (buf == NULL) {
+		return PyErr_Format(PyExc_AssertionError,
+			"PyMem_RawRealloc(0) returned NULL");
+    }
+	PyMem_RawFree(buf);
+	Py_RETURN_NONE;
+}
+
 #define FUNC(style, name) { #name, (PyCFunction)name, style, NULL }
 
 static PyMethodDef methods[] = {
@@ -386,6 +450,14 @@ static PyMethodDef methods[] = {
 	FUNC(METH_O, file_fread),
 	FUNC(METH_VARARGS, file_fwrite),
 	FUNC(METH_VARARGS, file_fseek),
+
+	FUNC(METH_VARARGS, test_raw_malloc),
+	FUNC(METH_VARARGS, test_raw_calloc),
+	FUNC(METH_VARARGS, test_raw_realloc),
+	FUNC(METH_VARARGS, test_raw_realloc_null),
+	FUNC(METH_VARARGS, test_raw_malloc_zerosize),
+	FUNC(METH_VARARGS, test_raw_calloc_zerosize),
+	FUNC(METH_VARARGS, test_raw_realloc_zerosize),
 
 	{ NULL }
 };

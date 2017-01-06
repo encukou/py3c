@@ -618,7 +618,7 @@ Shims for New Conveniences in Python 3.4+
     #include <py3c/py3shims.h>  // (included in <py3c.h>)
 
 Raw Memory Allocation
----------------------
+~~~~~~~~~~~~~~~~~~~~~
 
 Python 3.4 adds several functions to manage “raw” memory in a way that the
 Python allocator is aware of it.

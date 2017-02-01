@@ -7,6 +7,19 @@ py3c Changes
 Version History
 ===============
 
+v0.8 (2017-02-01)
+-----------------
+
+Additions:
+
+* Add backports for PyMem_Raw*
+
+Compatibility:
+
+* Restore compatibility with old Visual Studio versions
+* Enable tests on Python 3.6
+
+
 v0.7 (2016-07-05)
 -----------------
 

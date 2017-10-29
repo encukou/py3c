@@ -35,7 +35,10 @@ test-%: build-%
 test-%-cpp: build-%-cpp
 	TEST_USE_CPP=yes PYTHONPATH=$(wildcard test/build/lib*) $* test -v
 
-py3c.pc: py3c.pc.in
+$(includedir):
+	mkdir -p $(includedir)
+
+py3c.pc: py3c.pc.in $(includedir)
 	sed -e's:@includedir@:$(realpath $(includedir)):' $< > $@
 
 install: py3c.pc

@@ -7,6 +7,13 @@ py3c Changes
 Version History
 ===============
 
+v0.9 (upcoming)
+---------------
+
+* In Python 3.7, values not supposed to be changed will be returned as const.
+  Code needs to be adapted to this.
+
+
 v0.8 (2017-02-01)
 -----------------
 
@@ -18,8 +25,6 @@ Compatibility:
 
 * Restore compatibility with old Visual Studio versions
 * Enable tests on Python 3.6
-* In Python 3.7, values not supposed to be changed will be returned as const.
-  Code needs to be adapted to this.
 
 
 v0.7 (2016-07-05)

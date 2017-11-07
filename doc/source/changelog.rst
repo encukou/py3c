@@ -7,6 +7,16 @@ py3c Changes
 Version History
 ===============
 
+v0.9 (upcoming)
+---------------
+
+Build:
+
+* Fix includedir substitution on OS X (thanks to Branko Čibej)
+  (This might cause make to fail if includedir, by default /usr/local/include,
+  is not present; in that case it needs to be created.)
+
+
 v0.8 (2017-02-01)
 -----------------
 

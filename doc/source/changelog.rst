@@ -10,6 +10,10 @@ Version History
 v0.9 (upcoming)
 ---------------
 
+Tests:
+
+* Adapt tests to Python 3.7 regarding const correctness (thanks to Marcel Plch)
+
 Build:
 
 * Fix includedir substitution on OS X (thanks to Branko Čibej)

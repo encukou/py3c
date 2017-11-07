@@ -43,7 +43,7 @@ static PyObject *str_fromformatv(PyObject *mod) {
 }
 
 static PyObject *str_asstring_check(PyObject *mod, PyObject * o) {
-	char *str = PyStr_AsString(o);
+	const char *str = PyStr_AsString(o);
 	if (!str) return NULL;
 	return PyBool_FromLong(!strcmp(str, UTF8_STRING));
 }
@@ -83,14 +83,14 @@ static PyObject *str_asutf8string(PyObject *mod, PyObject *o) {
 }
 
 static PyObject *str_asutf8_check(PyObject *mod, PyObject * o) {
-	char *str = PyStr_AsUTF8(o);
+	const char *str = PyStr_AsUTF8(o);
 	if (!str) return NULL;
 	return PyBool_FromLong(!strcmp(str, UTF8_STRING));
 }
 
 static PyObject *str_asutf8andsize_check(PyObject *mod, PyObject * o) {
 	Py_ssize_t size;
-	char *str = PyStr_AsUTF8AndSize(o, &size);
+	const char *str = PyStr_AsUTF8AndSize(o, &size);
 	if (!str) return NULL;
 	return PyBool_FromLong(!strcmp(str, UTF8_STRING) && size == 36);
 }

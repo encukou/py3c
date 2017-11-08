@@ -20,7 +20,8 @@ static PyObject *str_checkexact(PyObject *mod, PyObject * o) {
 	return PyBool_FromLong(PyStr_CheckExact(o));
 }
 
-static PyObject *str_fromstring(PyObject *mod) {
+/* Note: this also tests that Py_UNUSED works */
+static PyObject *str_fromstring(PyObject *mod, PyObject *Py_UNUSED(o)) {
 	return PyStr_FromString(UTF8_STRING);
 }
 
@@ -404,7 +405,7 @@ static PyObject *test_unreachable(PyObject *mod) {
 static PyMethodDef methods[] = {
 	FUNC(METH_O, str_check),
 	FUNC(METH_O, str_checkexact),
-	FUNC(METH_NOARGS, str_fromstring),
+	FUNC(METH_VARARGS, str_fromstring),
 	FUNC(METH_O, str_fromstringandsize),
 	FUNC(METH_NOARGS, str_fromformat),
 	FUNC(METH_NOARGS, str_fromformatv),

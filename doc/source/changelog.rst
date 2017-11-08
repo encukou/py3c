@@ -14,6 +14,7 @@ Additions:
 
 * Add Py_UNREACHABLE from Python 3.7
 * Add Py_RETURN_RICHCOMPARE from Python 3.7
+* Add Py_UNUSED from Python 3.4
 
 Deprecations:
 

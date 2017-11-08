@@ -38,6 +38,7 @@ PyVarObject_HEAD_INIT        ✔             ✔
 PyCapsule_*                  see below     ✔
 Py_TPFLAGS_*                 ✔             see below
 PyMem_Raw*                   =             =
+Py_UNUSED                    =             =
 ============================ ============= ==============
 
 Legend:

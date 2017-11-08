@@ -668,3 +668,14 @@ except they return unique pointers when zero bytes are requested.
 
     Backport of :c:func:`py3:PyMem_Calloc` from Python 3.5+.
     Replacement for ``calloc``.
+
+
+Unused Arguments
+~~~~~~~~~~~~~~~~
+
+.. c:macro:: Py_UNUSED(arg)
+
+    Use this for unused arguments in a function definition to silence compiler
+    warnings, e.g. ``PyObject* func(PyObject *Py_UNUSED(ignored))``.
+
+    Backport of :c:macro:`py3:Py_UNUSED` from Python 3.4+.

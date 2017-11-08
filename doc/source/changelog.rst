@@ -7,7 +7,7 @@ py3c Changes
 Version History
 ===============
 
-v0.9 (upcoming)
+v0.9 (2017-11-08)
 ---------------
 
 Tests:

@@ -466,6 +466,14 @@ Comparison Helpers
     Backported from :c:macro:`Python 3.4 <py3:Py_RETURN_NOTIMPLEMENTED>`
     for older versions.
 
+.. c:macro:: Py_UNREACHABLE
+
+    Use instead of `assert()` or `abort()` in unreachable code,
+    such as handling undefined comparison operations.
+
+    Backported from :c:macro:`Python 3.7 <py3:Py_UNREACHABLE>`
+    for older versions.
+
 .. c:function:: PyObject* PY3C_RICHCMP(val1, val2, int op)
 
     Compares two arguments orderable by C comparison operators (such as C

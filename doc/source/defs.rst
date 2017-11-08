@@ -29,6 +29,7 @@ MODULE_INIT_FUNC             see below     see below
 Rich comparisons             ✔             ✔
 PY3C_RICHCMP                 see below     see below
 Py_RETURN_NOTIMPLEMENTED     =             =
+Py_UNREACHABLE               =             =
 Py_TYPE                      ✔             ✔
 Py_REFCNT                    ✔             ✔
 Py_SIZE                      ✔             ✔
@@ -42,7 +43,7 @@ Legend:
 
     | ✔ – provided by Python
     | → – defined in py3c as a simple alias for
-    | = – provided by at least Python 3.5; py3c backports it to Python versions that don't define it
+    | = – provided by at least Python 3.7; py3c backports it to Python versions that don't define it
 
 The following non-trivial macros are defined:
 

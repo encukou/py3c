@@ -13,6 +13,10 @@
     return Py_INCREF(Py_NotImplemented), Py_NotImplemented
 #endif
 
+#ifndef Py_UNREACHABLE
+#define Py_UNREACHABLE() abort()
+#endif
+
 #define PY3C_RICHCMP(val1, val2, op) \
     ((op) == Py_EQ) ? PyBool_FromLong((val1) == (val2)) : \
     ((op) == Py_NE) ? PyBool_FromLong((val1) != (val2)) : \

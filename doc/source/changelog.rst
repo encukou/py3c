@@ -7,6 +7,14 @@ py3c Changes
 Version History
 ===============
 
+v1.0 (upcoming)
+-----------------
+
+Additions:
+
+* Add Py_UNREACHABLE from Python 3.7
+
+
 v0.9 (2017-11-08)
 -----------------
 

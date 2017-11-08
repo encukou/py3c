@@ -395,6 +395,10 @@ static PyObject *test_raw_realloc_zerosize(PyObject *mod, PyObject *args) {
 	Py_RETURN_NONE;
 }
 
+static PyObject *test_unreachable(PyObject *mod) {
+    Py_UNREACHABLE();
+}
+
 #define FUNC(style, name) { #name, (PyCFunction)name, style, NULL }
 
 static PyMethodDef methods[] = {
@@ -428,6 +432,7 @@ static PyMethodDef methods[] = {
     FUNC(METH_O, float_fromstring),
 
 	FUNC(METH_NOARGS, return_notimplemented),
+	FUNC(METH_NOARGS, test_unreachable),
 
 	FUNC(METH_NOARGS, capsule_get_count),
 	FUNC(METH_NOARGS, capsule_new),

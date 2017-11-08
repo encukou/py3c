@@ -7,6 +7,7 @@ import gc
 import tempfile
 import os
 import shutil
+import subprocess
 
 import test_py3c
 
@@ -181,6 +182,16 @@ class TypeChecks(TestCase):
             self.assertEqual(op(3, three), op(3, 3))
             self.assertEqual(op(three, 5), op(3, 5))
             self.assertEqual(op(5, three), op(5, 3))
+
+    def test_unreachable(self):
+        proc = subprocess.Popen(
+            [sys.executable, '-c',
+             'import test_py3c; test_py3c.test_unreachable()'],
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        stdout, stderr = proc.communicate()
+        self.assertEqual(stdout, b'')
+        self.assertEqual(stderr, b'')
+        self.assertNotEqual(proc.returncode, 0)
 
 
 class CapsuleChecks(TestCase):

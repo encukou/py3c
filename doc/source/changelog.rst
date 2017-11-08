@@ -13,6 +13,12 @@ v1.0 (upcoming)
 Additions:
 
 * Add Py_UNREACHABLE from Python 3.7
+* Add Py_RETURN_RICHCOMPARE from Python 3.7
+
+Deprecations:
+
+* The macro PY3C_RICHCMP is deprecated in favor of Py_RETURN_RICHCOMPARE.
+  There are no plans to remove the old macro from py3c.
 
 
 v0.9 (2017-11-08)

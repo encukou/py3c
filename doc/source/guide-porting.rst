@@ -246,6 +246,91 @@ to define an initialization function, and return the created module from it::
     }
 
 
+.. index::
+    double: Porting; Comparisons
+
+.. _comparison-porting:
+
+Comparisons
+~~~~~~~~~~~
+
+Python 2.1 introduced *rich comparisons* for custom objects, allowing separate
+behavior for the ``==``, ``!=``, ``<``, ``>``, ``<=``, ``>=`` operators,
+rather than calling one ``__cmp__`` function and interpreting its result
+according to the requested operation.
+(See `PEP 207 <https://www.python.org/dev/peps/pep-0207/>`_ for details.)
+
+In Python 3, the original ``__cmp__``-based object comparison is removed,
+so all code needs to switch to rich comparisons. Instead of a ::
+
+    static int cmp(PyObject *obj1, PyObject *obj2)
+
+function in the ``tp_compare`` slot, there is now a ::
+
+    static PyObject* richcmp(PyObject *obj1, PyObject *obj2, int op)
+
+in the ``tp_richcompare`` slot. The ``op`` argument specifies the comparison
+operation: ``Py_EQ`` (==), ``Py_GT`` (>), ``Py_LE`` (<=), etc.
+
+Additionally, Python 3 brings a semantic change. Previously, objects of
+disparate types were ordered according to type, where the ordering of types
+was undefined (but consistent across, at least, a single invocation of Python).
+In Python 3, objects of different types are unorderable.
+It is usually possible to write a comparison function that works for both
+versions by returning NotImplemented to explicitly fall back to default
+behavior.
+
+To help writing rich comparisons, Python 3.7+ provides a convenience macro,
+``Py_RETURN_RICHCOMPARE``, which returns the right
+``PyObject *`` result based on two values orderable by C's comparison operators.
+With py3c, the macro is available for older versions as well.
+A typical rich comparison function will look something like this::
+
+    static PyObject* mytype_richcmp(PyObject *obj1, PyObject *obj2, int op)
+    {
+        if (mytype_Check(obj2)) {
+            Py_RETURN_RICHCOMPARE(get_data(obj1), get_data(obj2), op);
+        }
+        Py_RETURN_NOTIMPLEMENTED;
+    }
+
+where ``get_data`` returns an orderable C value (e.g. a pointer or int), and
+mytype_Check checks if ``get_data`` is of the correct type
+(usually via PyObject_TypeCheck). Note that the first argument, obj1,
+is guaranteed to be of the type the function is defined for.
+
+If a "cmp"-style function is provided by the C library, compare its result to 0,
+e.g. ::
+
+    Py_RETURN_RICHCOMPARE(mytype_cmp(obj1, obj2), 0, op)
+
+The :c:macro:`py3:Py_RETURN_RICHCOMPARE` and
+:c:macro:`py3:Py_RETURN_NOTIMPLEMENTED` macros are provided in Python 3.3+
+and 3.7+, respectively;
+py3c makes them available to older versions as well.
+
+If you need more complicated comparison, use the :c:macro:`py3:Py_UNREACHABLE`
+macro for unknown operation types (``op``).
+The macro is was added in Python 3.7+, and py3c backports it.
+
+.. note::
+
+    The ``tp_richcompare`` slot is inherited in subclasses together with
+    ``tp_hash`` and (in Python 2) ``tp_compare``: iff
+    the subclass doesn't define any of them, all are inherited.
+
+    This means that if a class is modernized, its subclasses don't have to be,
+    *unless* the subclass manipulates compare/hash slots after
+    class creation (e.g. after the :c:func:`PyType_Ready <py3:PyType_Ready>`
+    call).
+
+.. note::
+
+    For backwards compatibility with previous versions of itself,
+    py3c provides the :c:macro:`PY3C_RICHCMP` macro,
+    an early draft of what became ``Py_RETURN_RICHCOMPARE``.
+
+
 The File API
 ~~~~~~~~~~~~
 

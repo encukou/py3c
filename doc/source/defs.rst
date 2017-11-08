@@ -27,9 +27,10 @@ PyModuleDef_HEAD_INIT        → 0           ✔
 PyModule_Create              see below     ✔
 MODULE_INIT_FUNC             see below     see below
 Rich comparisons             ✔             ✔
-PY3C_RICHCMP                 see below     see below
+Py_RETURN_RICHCOMPARE        =             =
 Py_RETURN_NOTIMPLEMENTED     =             =
 Py_UNREACHABLE               =             =
+PY3C_RICHCMP                 see below     see below
 Py_TYPE                      ✔             ✔
 Py_REFCNT                    ✔             ✔
 Py_SIZE                      ✔             ✔
@@ -68,7 +69,8 @@ The following non-trivial macros are defined:
         | Python 2: declares & defines init<mod>; declares a static PyInit_<mod> and provides function header for it
 
     :c:func:`PY3C_RICHCMP`
-        | See :c:func:`docs <PY3C_RICHCMP>`. (Purely a convenience macro, same in both versions.)
+        | Convenience macro for comparisons, same in both versions.
+        | Deprecated; use :c:macro:`Py_RETURN_RICHCOMPARE` instead.
 
     :ref:`PyCapsule_* <capsulethunk>`
         | Capsules are included in Python 2.7 and 3.1+.

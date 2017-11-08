@@ -43,7 +43,7 @@ Use `rich comparisons <https://www.python.org/dev/peps/pep-0207/>`_::
     static PyObject* mytype_richcmp(PyObject *obj1, PyObject *obj2, int op)
     {
         if (mytype_Check(obj2)) {
-            return PY3C_RICHCMP(get_data(obj1), get_data(obj2), op);
+            PY_RETURN_RICHCOMPARE(get_data(obj1), get_data(obj2), op);
         }
         Py_RETURN_NOTIMPLEMENTED;
     }

@@ -467,14 +467,15 @@ static PyMethodDef methods[] = {
 	{ NULL }
 };
 
-#ifdef __cplusplus
 // C++ apparently doesn't allow forward declarations for data
 // http://stackoverflow.com/a/936589/99057
-extern
+#ifdef __cplusplus
+#define FORWARD_TYPE extern
 #else
-static
+#define FORWARD_TYPE static
 #endif
-PyTypeObject test_py3c_NumberType;
+FORWARD_TYPE PyTypeObject test_py3c_OldNumberType;
+FORWARD_TYPE PyTypeObject test_py3c_NewNumberType;
 
 typedef struct {
 	PyObject_HEAD
@@ -501,10 +502,10 @@ static int Number_init(test_py3c_Number *self, PyObject *args, PyObject *kwds)
 	return 0;
 }
 
-static PyObject* Number_richcmp(PyObject *obj1, PyObject *obj2, int op)
+static PyObject* Number_py3c_richcmp(PyObject *obj1, PyObject *obj2, int op)
 {
 	test_py3c_Number *self = (test_py3c_Number *)obj1;
-	if (PyObject_TypeCheck(obj2, &test_py3c_NumberType)) {
+	if (PyObject_TypeCheck(obj2, &test_py3c_OldNumberType)) {
 		test_py3c_Number *other = (test_py3c_Number *)obj2;
 		return PY3C_RICHCMP(self->number, other->number, op);
 	}
@@ -514,12 +515,25 @@ static PyObject* Number_richcmp(PyObject *obj1, PyObject *obj2, int op)
 	Py_RETURN_NOTIMPLEMENTED;
 }
 
+static PyObject* Number_py_richcmp(PyObject *obj1, PyObject *obj2, int op)
+{
+	test_py3c_Number *self = (test_py3c_Number *)obj1;
+	if (PyObject_TypeCheck(obj2, &test_py3c_NewNumberType)) {
+		test_py3c_Number *other = (test_py3c_Number *)obj2;
+		Py_RETURN_RICHCOMPARE(self->number, other->number, op);
+	}
+	if (PyInt_Check(obj2)) {
+		Py_RETURN_RICHCOMPARE(self->number, PyInt_AsLong(obj2), op);
+	}
+	Py_RETURN_NOTIMPLEMENTED;
+}
+
 #ifndef __cplusplus
 static
 #endif
-PyTypeObject test_py3c_NumberType = {
+PyTypeObject test_py3c_OldNumberType = {
 	PyVarObject_HEAD_INIT(NULL, 0)
-	"test_py3c.Number",        /*tp_name*/
+	"test_py3c.OldNumber",     /*tp_name*/
 	sizeof(test_py3c_Number),  /*tp_basicsize*/
 	0,                         /*tp_itemsize*/
 	0,                         /*tp_dealloc*/
@@ -538,10 +552,54 @@ PyTypeObject test_py3c_NumberType = {
 	0,                         /*tp_setattro*/
 	0,                         /*tp_as_buffer*/
 	Py_TPFLAGS_DEFAULT,        /*tp_flags*/
-	"A mutable object that stores an int",      /* tp_doc */
+	"A mutable object that stores an int. Uses PY3C_RICHCMP for comparisons.",
 	0,                         /* tp_traverse */
 	0,                         /* tp_clear */
-	Number_richcmp,            /* tp_richcompare */
+	Number_py3c_richcmp,       /* tp_richcompare */
+	0,                         /* tp_weaklistoffset */
+	0,                         /* tp_iter */
+	0,                         /* tp_iternext */
+	0,                         /* tp_methods */
+	Number_members,            /* tp_members */
+	0,                         /* tp_getset */
+	0,                         /* tp_base */
+	0,                         /* tp_dict */
+	0,                         /* tp_descr_get */
+	0,                         /* tp_descr_set */
+	0,                         /* tp_dictoffset */
+	(initproc)Number_init,     /* tp_init */
+	0,                         /* tp_alloc */
+	PyType_GenericNew,         /* tp_new */
+};
+
+#ifndef __cplusplus
+static
+#endif
+PyTypeObject test_py3c_NewNumberType = {
+	PyVarObject_HEAD_INIT(NULL, 0)
+	"test_py3c.NewNumber",     /*tp_name*/
+	sizeof(test_py3c_Number),  /*tp_basicsize*/
+	0,                         /*tp_itemsize*/
+	0,                         /*tp_dealloc*/
+	0,                         /*tp_print*/
+	0,                         /*tp_getattr*/
+	0,                         /*tp_setattr*/
+	0,                         /*tp_compare*/
+	0,                         /*tp_repr*/
+	0,                         /*tp_as_number*/
+	0,                         /*tp_as_sequence*/
+	0,                         /*tp_as_mapping*/
+	0,                         /*tp_hash */
+	0,                         /*tp_call*/
+	0,                         /*tp_str*/
+	0,                         /*tp_getattro*/
+	0,                         /*tp_setattro*/
+	0,                         /*tp_as_buffer*/
+	Py_TPFLAGS_DEFAULT,        /*tp_flags*/
+	"A mutable object that stores an int. Uses PY_RETURN_RICHCOMPARE for comparisons.",
+	0,                         /* tp_traverse */
+	0,                         /* tp_clear */
+	Number_py_richcmp,         /* tp_richcompare */
 	0,                         /* tp_weaklistoffset */
 	0,                         /* tp_iter */
 	0,                         /* tp_iternext */
@@ -576,7 +634,8 @@ MODULE_INIT_FUNC(test_py3c)
 	PyObject *capsule = NULL;
 	PyObject *m = NULL;
 
-	if (PyType_Ready(&test_py3c_NumberType) < 0) goto error;
+	if (PyType_Ready(&test_py3c_OldNumberType) < 0) goto error;
+	if (PyType_Ready(&test_py3c_NewNumberType) < 0) goto error;
 
 	capsule = PyCapsule_New((void*)test_ptr2, "test_py3c.capsule", NULL);
 	if (capsule == NULL) goto error;
@@ -589,8 +648,11 @@ MODULE_INIT_FUNC(test_py3c)
 	if (PyModule_AddObject(m, "int_type", (PyObject *)&PyInt_Type)) goto error;
 	Py_INCREF(&PyInt_Type);
 
-	Py_INCREF(&test_py3c_NumberType);
-	if (PyModule_AddObject(m, "Number", (PyObject *)&test_py3c_NumberType)) goto error;
+	Py_INCREF(&test_py3c_OldNumberType);
+	if (PyModule_AddObject(m, "OldNumber", (PyObject *)&test_py3c_OldNumberType)) goto error;
+
+	Py_INCREF(&test_py3c_NewNumberType);
+	if (PyModule_AddObject(m, "NewNumber", (PyObject *)&test_py3c_NewNumberType)) goto error;
 
 	if (PyModule_AddObject(m, "capsule", capsule)) goto error;
 

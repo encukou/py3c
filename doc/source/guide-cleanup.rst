@@ -45,10 +45,14 @@ In other words, remove the ``py3c.h`` header, and fix the compile errors.
 *   .. index::
         double: Cleanup; Comparisons
 
-    Replace PY3C_RICHCMP by its expansion, unless you keep the ``py3c/comparison.h``
-    header.
+    Replace ``return PY3C_RICHCMP`` by :c:func:`Py_RETURN_RICHCOMPARE`,
+    as mentioned in :c:macro:`PY3C_RICHCMP` documentation.
 
-*   Replace Py_RETURN_NOTIMPLEMENTED by its expansion, unless you either
+*   Replace :c:func:`Py_RETURN_RICHCOMPARE` and :c:func:`Py_UNREACHABLE`
+    by its expansion, unless you either
+    support Python 3.7+ only or keep the ``py3c/comparison.h`` header.
+
+*   Replace :c:func:`Py_RETURN_NOTIMPLEMENTED` by its expansion, unless you either
     support Python 3.3+ only or keep the ``py3c/comparison.h`` header.
 
 *   Drop ``capsulethunk.h``, if you're using it.

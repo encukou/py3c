@@ -474,23 +474,38 @@ Comparison Helpers
     Backported from :c:macro:`Python 3.7 <py3:Py_UNREACHABLE>`
     for older versions.
 
-.. c:function:: PyObject* PY3C_RICHCMP(val1, val2, int op)
+.. c:function:: PyObject* PY_RETURN_RICHCOMPARE(val1, val2, int op)
 
     Compares two arguments orderable by C comparison operators (such as C
-    ints or floats). The third argument specifies the requested operation,
+    ints or floats), and returns :c:data:`Py_True` or :c:data:`Py_False` based
+    on the result, properly increasing the reference count.
+
+    The third argument specifies the requested operation,
     as for a :c:member:`rich comparison function <py3:PyTypeObject.tp_richcompare>`.
-    Evaluates to a new reference to ``Py_True`` or ``Py_False``, depending
-    on the result of the comparison.
 
-    ::
+    Backported from :c:macro:`Python 3.7 <py3:PY_RETURN_RICHCOMPARE>`
+    for older versions.
 
-        ((op) == Py_EQ) ? PyBool_FromLong((val1) == (val2)) : \
-        ((op) == Py_NE) ? PyBool_FromLong((val1) != (val2)) : \
-        ((op) == Py_LT) ? PyBool_FromLong((val1) < (val2)) : \
-        ((op) == Py_GT) ? PyBool_FromLong((val1) > (val2)) : \
-        ((op) == Py_LE) ? PyBool_FromLong((val1) <= (val2)) : \
-        ((op) == Py_GE) ? PyBool_FromLong((val1) >= (val2)) : \
-        (Py_INCREF(Py_NotImplemented), Py_NotImplemented)
+.. c:function:: PyObject* PY3C_RICHCMP(val1, val2, int op)
+
+    .. deprecated:: 1.0
+        Use :c:func:`PY_RETURN_RICHCOMPARE` instead
+
+    A helper for rich comparisons that py3c provided before such a helper was,
+    with slightly changed name and semantics,
+    `included in Python itself <https://bugs.python.org/issue23699>`_.
+
+    There are no plans to remove :c:macro:`PY3C_RICHCMP` from py3c,
+    but before *your project* gets rid of py3c, all calls need to switch
+    to what's provided by CPython.
+
+    To switch, instead of::
+
+        return PY3C_RICHCMP(a, b, op)
+
+    write::
+
+        PY_RETURN_RICHCOMPARE(a, b, op)
 
 
 Types

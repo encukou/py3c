@@ -143,34 +143,46 @@ class FloatChecks(TestCase):
         self.assertEqual(test_py3c.float_fromstring('-10.5'), -10.5)
 
 
-class TypeChecks(TestCase):
+class ComparisonHelperChecks(TestCase):
     def test_return_notimplemented(self):
         self.assertIs(test_py3c.return_notimplemented(), NotImplemented)
 
+    def test_unreachable(self):
+        proc = subprocess.Popen(
+            [sys.executable, '-c',
+             'import test_py3c; test_py3c.test_unreachable()'],
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        stdout, stderr = proc.communicate()
+        self.assertEqual(stdout, b'')
+        self.assertEqual(stderr, b'')
+        self.assertNotEqual(proc.returncode, 0)
+
+
+class ComparisonChecksBase(object):
     def test_number(self):
-        num = test_py3c.Number(3)
+        num = self.cls(3)
         self.assertEqual(num.value, 3)
         num.value = 5
         self.assertEqual(num.value, 5)
 
     def test_number_number_equality(self):
-        three = test_py3c.Number(3)
-        three2 = test_py3c.Number(3)
-        five = test_py3c.Number(5)
+        three = self.cls(3)
+        three2 = self.cls(3)
+        five = self.cls(5)
         self.assertEqual(three, three)
         self.assertEqual(three, three2)
         self.assertNotEqual(three, five)
 
     def test_number_int_equality(self):
-        three = test_py3c.Number(3)
-        five = test_py3c.Number(5)
+        three = self.cls(3)
+        five = self.cls(5)
         self.assertEqual(three, 3)
         self.assertNotEqual(three, 5)
 
     def test_all_comparisons(self):
-        three = test_py3c.Number(3)
-        three2 = test_py3c.Number(3)
-        five = test_py3c.Number(5)
+        three = self.cls(3)
+        three2 = self.cls(3)
+        five = self.cls(5)
         for op in (operator.eq, operator.ne, operator.gt, operator.lt,
                    operator.ge, operator.le):
             self.assertEqual(op(three, three), op(3, 3))
@@ -183,15 +195,14 @@ class TypeChecks(TestCase):
             self.assertEqual(op(three, 5), op(3, 5))
             self.assertEqual(op(5, three), op(5, 3))
 
-    def test_unreachable(self):
-        proc = subprocess.Popen(
-            [sys.executable, '-c',
-             'import test_py3c; test_py3c.test_unreachable()'],
-            stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        stdout, stderr = proc.communicate()
-        self.assertEqual(stdout, b'')
-        self.assertEqual(stderr, b'')
-        self.assertNotEqual(proc.returncode, 0)
+
+
+class OldComparisonChecks(TestCase, ComparisonChecksBase):
+    cls = test_py3c.OldNumber
+
+
+class NewComparisonChecks(TestCase, ComparisonChecksBase):
+    cls = test_py3c.NewNumber
 
 
 class CapsuleChecks(TestCase):

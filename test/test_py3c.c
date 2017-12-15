@@ -468,8 +468,9 @@ static PyMethodDef methods[] = {
 	{ NULL }
 };
 
-// C++ apparently doesn't allow forward declarations for data
-// http://stackoverflow.com/a/936589/99057
+/* C++ apparently doesn't allow forward declarations for data
+ * http://stackoverflow.com/a/936589/99057
+ */
 #ifdef __cplusplus
 #define FORWARD_TYPE extern
 #else

@@ -21,6 +21,12 @@ Deprecations:
 * The macro PY3C_RICHCMP is deprecated in favor of Py_RETURN_RICHCOMPARE.
   There are no plans to remove the old macro from py3c.
 
+Fixes:
+* The PyStr_Concat function no longer causes GCC warnings about being unused.
+
+Tests:
+* The test suite now fails on unexpected compiler warnings.
+
 
 v0.9 (2017-11-08)
 -----------------

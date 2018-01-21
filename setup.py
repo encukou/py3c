@@ -21,6 +21,6 @@ setup(
     long_description=long_description,
     author='Petr Viktorin',
     author_email='encukou@gmail.com',
-    url='https://github.com/encukou/py3c',
+    url='http://py3c.readthedocs.io/',
     headers=list(find_headers()),
     platforms='any')

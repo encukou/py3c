@@ -11,13 +11,10 @@ def find_headers():
 
 setup(
     name='py3c',
+    version='1.0a1',
     description='Python compatibility headers',
     author='Petr Viktorin',
     author_email='encukou@gmail.com',
     url='https://github.com/encukou/py3c',
     headers=list(find_headers()),
-    platforms='any',
-    setup_requires=[
-        'setuptools_scm',
-    ],
-    use_scm_version=True)
+    platforms='any')

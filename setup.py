@@ -5,9 +5,11 @@ from setuptools import setup
 
 
 def find_headers():
-    for filename in glob.iglob('include/**/*.h', recursive=True):
-        yield os.path.relpath(filename, os.path.dirname(__file__))
-
+    path = os.path.join(os.path.dirname(__file__), 'include')
+    for root, dirs, files in os.walk(path):
+        for filename in files:
+            if filename.endswith('.h'):
+                yield os.path.join(root, filename)
 
 setup(
     name='py3c',

@@ -11,10 +11,14 @@ def find_headers():
             if filename.endswith('.h'):
                 yield os.path.join(root, filename)
 
+with open('README.rst') as f:
+    long_description = f.read()
+
 setup(
     name='py3c',
     version='1.0a1',
     description='Python compatibility headers',
+    long_description=long_description,
     author='Petr Viktorin',
     author_email='encukou@gmail.com',
     url='https://github.com/encukou/py3c',

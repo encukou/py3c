@@ -27,6 +27,9 @@ Fixes:
 Tests:
 * The test suite now fails on unexpected compiler warnings.
 
+Packaging:
+* py3c is now on PyPI, thanks to @xoviat
+
 
 v0.9 (2017-11-08)
 -----------------

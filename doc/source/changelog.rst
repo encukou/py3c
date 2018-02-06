@@ -7,7 +7,7 @@ py3c Changes
 Version History
 ===============
 
-v1.0 (upcoming)
+v1.0 (2018-02-06)
 -----------------
 
 Additions:

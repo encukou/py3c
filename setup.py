@@ -16,7 +16,7 @@ with open('README.rst') as f:
 
 setup(
     name='py3c',
-    version='1.0a1',
+    version='1.0',
     description='Python compatibility headers',
     long_description=long_description,
     author='Petr Viktorin',

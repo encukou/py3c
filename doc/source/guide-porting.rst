@@ -45,17 +45,17 @@ Functions that take both Unicode strings and bytes (in a single Python version)
 should be rare, and should generally be convenience functions in your interface;
 not code deep in the internals.
 
-However, you can use a concept of **native strings**: a type that corresponds
+However, you can use a concept of **native strings**, a type that corresponds
 to the ``str`` type in Python: PyBytes on Python 2, and PyUnicode in Python 3.
 This is the type that you will need to return from functions like ``__str__``
-and ``__repr__.
+and ``__repr__``.
 
-Using the **native string** extensively is suitable for conservative projects:
+Using the *native string* extensively is suitable for conservative projects:
 it affects the semantics under Python 2 as little as possible, while not
 requiring the resulting Python 3 API to feel contorted.
 
-With py3c, functions for the native string type are PyStr_* (PyStr_FromString,
-PyStr_Type, PyStr_Check, etc.). They correspond to
+With py3c, functions for the native string type are PyStr_* (``PyStr_FromString``,
+``PyStr_Type``, ``PyStr_Check``, etc.). They correspond to
 `PyString <https://docs.python.org/2/c-api/string.html>`_ on Python 2,
 and `PyUnicode <https://docs.python.org/3/c-api/unicode.html>`_ on Python 3.
 The supported API is the intersection of `PyString_* <https://docs.python.org/2/c-api/string.html>`_
@@ -67,14 +67,14 @@ Keep in mind py3c expects that native strings are always encoded with ``utf-8``
 under Python 2. If you use a different encoding, you will need to convert
 between bytes and text manually.
 
-For binary data, use PyBytes_* (PyBytes_FromString, PyBytes_Type, PyBytes_Check,
+For binary data, use PyBytes_* (``PyBytes_FromString``, ``PyBytes_Type``, ``PyBytes_Check``,
 etc.). Python 3.x provides them under these names only; in Python 2.6+ they are
 aliases of PyString_*. (For even older Pythons, py3c also provides these aliases.)
 The supported API is the intersection of `PyString_* <https://docs.python.org/2/c-api/string.html>`_
 and `PyBytes_* <https://docs.python.org/3/c-api/bytes.html>`_,
 
-Porting mostly consists of replacing "``PyString_``" to either "``PyStr_``"
-or "``PyBytes_``"; just see the caveat about size below.
+Porting mostly consists of replacing ``PyString_`` to either ``PyStr_``
+or ``PyBytes_``; just see the caveat about size below.
 
 To summarize the four different string type names:
 
@@ -101,7 +101,7 @@ number of bytes in the string's UTF-8 representation.
 To prevent subtle errors, this library does *not* provide a
 PyStr_Size function.
 
-Instead, use PyStr_AsUTF8AndSize. This functions like Python 3's
+Instead, use :c:func:`PyStr_AsUTF8AndSize`. This functions like Python 3's
 `PyUnicode_AsUTF8AndSize <https://docs.python.org/3/c-api/unicode.html#c.PyUnicode_AsUTF8AndSize>`_,
 except under Python 2, the string is not encoded (as it should already be in UTF-8),
 the size pointer must not be NULL, and the size may be stored even if an error occurs.
@@ -305,8 +305,8 @@ e.g. ::
     Py_RETURN_RICHCOMPARE(mytype_cmp(obj1, obj2), 0, op)
 
 The :c:macro:`py3:Py_RETURN_RICHCOMPARE` and
-:c:macro:`py3:Py_RETURN_NOTIMPLEMENTED` macros are provided in Python 3.3+
-and 3.7+, respectively;
+:c:macro:`py3:Py_RETURN_NOTIMPLEMENTED` macros are provided in Python 3.7+
+and 3.3+, respectively;
 py3c makes them available to older versions as well.
 
 If you need more complicated comparison, use the :c:macro:`py3:Py_UNREACHABLE`

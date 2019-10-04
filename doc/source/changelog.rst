@@ -7,6 +7,15 @@ py3c Changes
 Version History
 ===============
 
+v1.1 (2019-10-04)
+-----------------
+
+Compatibility:
+
+* Tests updated to pass with Python 3.8.0rc1
+* Python versions 2.6 and 3.3 are no longer tested (due to lack of CI support)
+
+
 v1.0 (2018-02-06)
 -----------------
 

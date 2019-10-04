@@ -154,7 +154,8 @@ class ComparisonHelperChecks(TestCase):
             stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         stdout, stderr = proc.communicate()
         self.assertEqual(stdout, b'')
-        self.assertEqual(stderr, b'')
+        # some versions of Python don't leave a message on stderr,
+        # some do (like Python 3.8)
         self.assertNotEqual(proc.returncode, 0)
 
 

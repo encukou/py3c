@@ -95,7 +95,7 @@ All follow the Python 3 API, except ``PyStr`` is substituted for ``PyUnicode``.
 .. c:function:: const char* PyStr_AsString(PyObject *s)
 
     Return a null-terminated representation of the contents of *s*.
-    The buffer is owned by *s* and must bot be modified, deallocated,
+    The buffer is owned by *s* and must not be modified, deallocated,
     or used after *s* is deallocated.
 
     Uses the UTF-8 encoding on Python 3.

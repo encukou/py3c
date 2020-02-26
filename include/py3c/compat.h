@@ -112,6 +112,9 @@ static PyObject *PyStr_Concat(PyObject *left, PyObject *right) {
 
 #define PyFloat_FromString(str) PyFloat_FromString(str, NULL)
 
+/* Longs */
+#define PyLong_AS_LONG PyInt_AS_LONG
+
 /* Module init */
 
 #define PyModuleDef_HEAD_INIT 0

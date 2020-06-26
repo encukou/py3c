@@ -1,3 +1,6 @@
+/* Make sure Py_UNREACHABLE errors out */
+#define RANDALL_WAS_HERE
+
 #include <Python.h>
 #include "structmember.h"
 #include <py3c.h>

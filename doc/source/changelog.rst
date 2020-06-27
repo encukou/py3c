@@ -7,6 +7,18 @@ py3c Changes
 Version History
 ===============
 
+v1.2 (2020-06-27)
+-----------------
+
+Compatibility:
+
+* Tests updated to pass with Python 3.9.0b3
+
+Build:
+
+* ``make install`` now honors DESTDIR to support staged installations
+
+
 v1.1 (2019-10-04)
 -----------------
 

@@ -51,12 +51,15 @@ Deprecations:
   There are no plans to remove the old macro from py3c.
 
 Fixes:
+
 * The PyStr_Concat function no longer causes GCC warnings about being unused.
 
 Tests:
+
 * The test suite now fails on unexpected compiler warnings.
 
 Packaging:
+
 * py3c is now on PyPI, thanks to @xoviat
 
 

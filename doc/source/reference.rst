@@ -306,7 +306,7 @@ All follow the Python 3 API.
 PyInt
 ~~~~~
 
-These functions allow extensions to make the diistinction between ints
+These functions allow extensions to make the distinction between ints
 and longs on Python 2.
 
 All follow the Python 2 API.

@@ -103,10 +103,10 @@ are addressed.
 
 What you need to do depends on your initialization style:
 
-CPython style
+C89/C++ style
 .............
 
-This style, used in CPython, works in both old C and C++::
+This style is compatible both with older C compilers and with C++::
 
     static PyNumberMethods long_as_number = {
         (binaryfunc)long_add,       /*nb_add*/

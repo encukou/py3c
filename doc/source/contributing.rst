@@ -7,7 +7,7 @@
 Contributing to py3c
 ====================
 
-.. highlight:: c
+.. highlight:: console
 
 If you would like to contribute to py3c, be it code, documentation,
 suggestions, or anything else, please file an issue or send a pull request

@@ -7,6 +7,14 @@ py3c Changes
 Version History
 ===============
 
+v1.3 (upcoming)
+-----------------
+
+Compatibility:
+
+* Tested with Python 3.9.0
+
+
 v1.2 (2020-06-27)
 -----------------
 

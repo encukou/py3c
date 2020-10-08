@@ -8,6 +8,7 @@ python:
   - "3.6"
   - "3.7"
   - "3.8"
+  - "3.9"
   - "nightly"
 
 env:
@@ -19,6 +20,8 @@ matrix:
   exclude:
   # CPython 3.8+ won't compile with c90.
   - python: "3.8"
+    env: TEST_USE_CPP=no CFLAGS="-Werror -Wall -std=c90 -Wno-error=strict-aliasing"
+  - python: "3.9"
     env: TEST_USE_CPP=no CFLAGS="-Werror -Wall -std=c90 -Wno-error=strict-aliasing"
   - python: "nightly"
     env: TEST_USE_CPP=no CFLAGS="-Werror -Wall -std=c90 -Wno-error=strict-aliasing"

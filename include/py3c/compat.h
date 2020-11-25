@@ -122,6 +122,10 @@ typedef struct PyModuleDef {
     const char* m_doc;
     Py_ssize_t m_size;
     PyMethodDef *m_methods;
+    void* m_slots;
+    void* m_traverse;
+    void* m_clear;
+    void* m_free;
 } PyModuleDef;
 
 #define PyModule_Create(def) \

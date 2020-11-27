@@ -5,6 +5,7 @@
 #ifndef _PY3C_COMPAT_H_
 #define _PY3C_COMPAT_H_
 #include <Python.h>
+#include <assert.h>
 
 #if PY_MAJOR_VERSION >= 3
 
@@ -128,8 +129,13 @@ typedef struct PyModuleDef {
     void* m_free;
 } PyModuleDef;
 
-#define PyModule_Create(def) \
-    Py_InitModule3((def)->m_name, (def)->m_methods, (def)->m_doc)
+static PyObject *PyModule_Create(PyModuleDef *def) {
+    assert(!def->m_slots);
+    assert(!def->m_traverse);
+    assert(!def->m_clear);
+    assert(!def->m_free);
+    return Py_InitModule3(def->m_name, def->m_methods, def->m_doc);
+}
 
 #define MODULE_INIT_FUNC(name) \
     static PyObject *PyInit_ ## name(void); \

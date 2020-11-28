@@ -7,6 +7,14 @@ py3c Changes
 Version History
 ===============
 
+v1.3 (upcoming)
+-----------------
+
+Compatibility:
+
+* Tested with Python 3.9.0
+
+
 v1.2 (2020-06-27)
 -----------------
 
@@ -43,12 +51,15 @@ Deprecations:
   There are no plans to remove the old macro from py3c.
 
 Fixes:
+
 * The PyStr_Concat function no longer causes GCC warnings about being unused.
 
 Tests:
+
 * The test suite now fails on unexpected compiler warnings.
 
 Packaging:
+
 * py3c is now on PyPI, thanks to @xoviat
 
 

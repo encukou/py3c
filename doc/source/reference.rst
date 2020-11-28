@@ -430,13 +430,29 @@ Module Initialization
 
         .. c:member:: char *m_name
 
+            Name of the new module
+
         .. c:member:: char *m_doc
+
+            Documentation string, or NULL
 
         .. c:member:: Py_ssize_t m_size
 
             Set this to -1. (Or if your module supports :c:func:`subinterpreters <py3:Py_NewInterpreter>`, use 0)
 
         .. c:member:: PyMethodDef m_methods
+
+            Pointer to a table of module-level functions
+
+        Four more members are provided.
+        Under Python 2, set them to NULL.
+        (In a global ``static`` structure, you can leave them out
+        unless you want to avoid warnings about unitialized members):
+
+            .. c:member:: m_slots
+            .. c:member:: m_traverse
+            .. c:member:: m_clear
+            .. c:member:: m_free
 
     Python 3: :c:type:`(provided) <py3:PyModuleDef>`
 

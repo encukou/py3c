@@ -14,6 +14,14 @@ Compatibility:
 
 * Tested with Python 3.9.0
 
+Additions:
+
+* To help avoid compiler warning about uninitialized members, extra members
+  are added to the ``PyModuleDef`` structure for Python 2: ``m_slots``,
+  ``m_traverse``, ``m_clear`` and ``m_free``.
+  Under Python 2, they must be set to NULL (usually by continuing to leave
+  them out).
+
 
 v1.2 (2020-06-27)
 -----------------

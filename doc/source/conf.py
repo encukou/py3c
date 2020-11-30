@@ -106,9 +106,8 @@ html_theme = 'default'
 if not os.environ.get('READTHEDOCS', None):
     try:
         import sphinx_rtd_theme
-    except ():#ImportError:
+    except ImportError:
         pass
-        1/0
     else:
         html_theme = 'sphinx_rtd_theme'
         html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]

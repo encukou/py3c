@@ -11,6 +11,9 @@ includedir ?= $(prefix)/include
 datarootdir ?= $(prefix)/share
 datadir ?= $(datarootdir)
 pkgconfigdir ?= ${datadir}/pkgconfig
+testbuilddir ?= test/build
+
+_testbuilddir_abs=$(abspath ${testbuilddir})
 
 doc:
 	cd doc && $(MAKE) html
@@ -24,16 +27,17 @@ test:
 # TODO: A better way to build & use one-off extensions?
 
 build-%:
-	cd test; rm -rvf build ; $* setup.py build
+	cd test; rm -rvf ${_testbuilddir_abs} ; $* setup.py build -b ${_testbuilddir_abs}
 
 build-%-cpp:
-	cd test; rm -rvf build ; TEST_USE_CPP=yes $* setup.py build
+	cd test; rm -rvf ${_testbuilddir_abs} ; TEST_USE_CPP=yes $* setup.py build -b ${_testbuilddir_abs}
 
 test-%: build-%
-	PYTHONPATH=$(wildcard test/build/lib*) $* test -v
+	echo ${_testbuilddir_abs}
+	PYTHONPATH=$(wildcard ${_testbuilddir_abs}/lib*) $* test -v
 
 test-%-cpp: build-%-cpp
-	TEST_USE_CPP=yes PYTHONPATH=$(wildcard test/build/lib*) $* test -v
+	TEST_USE_CPP=yes PYTHONPATH=$(wildcard ${_testbuilddir_abs}/lib*) $* test -v
 
 $(includedir):
 	mkdir -p $(includedir)

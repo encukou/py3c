@@ -2,7 +2,6 @@ on:
   push:
     branches:
     - master
-    - ci-test
   pull_request:
 
 name: Run Tox tests

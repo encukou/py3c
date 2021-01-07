@@ -20,9 +20,9 @@ jobs:
     strategy:
       matrix:
         tox_env: [
-            py27-c90, py34-c90, py35-c90, py36-c90,
-            py27-c99, py34-c99, py35-c99, py36-c99, py37-c99, py38-c99, py39-c99, py310-c99,
-            py27-cpp, py34-cpp, py35-cpp, py36-cpp, py37-cpp, py38-cpp, py39-cpp, py310-cpp,
+            py27-c90, py35-c90, py36-c90,
+            py27-c99, py35-c99, py36-c99, py37-c99, py38-c99, py39-c99, py310-c99,
+            py27-cpp, py35-cpp, py36-cpp, py37-cpp, py38-cpp, py39-cpp, py310-cpp,
         ]
 
     # Use GitHub's Linux Docker host

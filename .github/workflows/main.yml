@@ -4,8 +4,6 @@ on:
     - master
     - ci-test
   pull_request:
-    branches:
-    - master
 
 name: Run Tox tests
 

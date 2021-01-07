@@ -26,3 +26,19 @@ jobs:
 
     # Use GitHub's Linux Docker host
     runs-on: ubuntu-latest
+
+  py33-test:
+    name: Python 3.3 test
+    container: python:3.3
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run tests
+      env:
+        CFLAGS: "-Werror -Wall -Wno-error=strict-aliasing"
+      run: |
+        CFLAGS="$CFLAGS -std=c90" make test-python
+        CFLAGS="$CFLAGS -std=c99" make test-python
+        make test-python-cpp
+
+    # Use GitHub's Linux Docker host
+    runs-on: ubuntu-latest

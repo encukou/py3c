@@ -7,6 +7,17 @@ py3c Changes
 Version History
 ===============
 
+v1.3.1 (2021-01-07)
+-----------------
+
+Packaging:
+
+* Allow building the documentation without sphinx_rtd_theme
+
+There is no neeed to update to 1.3.1 unless you are having trouble building
+the documentation.
+
+
 v1.3 (2020-11-29)
 -----------------
 

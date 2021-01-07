@@ -8,5 +8,5 @@ Description: Python 2/3 compatibility layer for C extensions
 #Requires: python
 #Requires: python3
 
-Version: 1.3
+Version: 1.3.1
 Cflags: -I${includedir}

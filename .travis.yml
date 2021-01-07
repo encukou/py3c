@@ -1,0 +1,15 @@
+language: python
+arch:
+  - amd64
+  - ppc64le
+python:
+  - "3.4"
+
+env:
+    - TEST_USE_CPP=no CFLAGS="-Werror -Wall -std=c90 -Wno-error=strict-aliasing"
+    - TEST_USE_CPP=no CFLAGS="-Werror -Wall -std=c99 -Wno-error=strict-aliasing"
+    - TEST_USE_CPP=yes CFLAGS="-Werror -Wall -Wno-error=strict-aliasing"
+
+script: make test-python
+
+sudo: false

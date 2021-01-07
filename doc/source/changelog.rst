@@ -7,10 +7,6 @@ py3c Changes
 Version History
 ===============
 
-v1.4 (upcoming)
-
-* CI no longer tests with Python 3.4
-
 
 v1.3.1 (2021-01-07)
 -----------------

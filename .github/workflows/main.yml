@@ -1,0 +1,44 @@
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+
+name: Run Tox tests
+
+jobs:
+  tox_test:
+    name: Tox test
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run Tox tests
+      id: test
+      uses: fedora-python/tox-github-action@master
+      with:
+        tox_env: ${{ matrix.tox_env }}
+    strategy:
+      matrix:
+        tox_env: [
+            py27-c90, py35-c90, py36-c90,
+            py27-c99, py35-c99, py36-c99, py37-c99, py38-c99, py39-c99, py310-c99,
+            py27-cpp, py35-cpp, py36-cpp, py37-cpp, py38-cpp, py39-cpp, py310-cpp,
+        ]
+
+    # Use GitHub's Linux Docker host
+    runs-on: ubuntu-latest
+
+  py33-test:
+    name: Python 3.3 test
+    container: python:3.3
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run tests
+      env:
+        CFLAGS: "-Werror -Wall -Wno-error=strict-aliasing"
+      run: |
+        CFLAGS="$CFLAGS -std=c90" make test-python
+        CFLAGS="$CFLAGS -std=c99" make test-python
+        make test-python-cpp
+
+    # Use GitHub's Linux Docker host
+    runs-on: ubuntu-latest

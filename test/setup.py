@@ -9,9 +9,9 @@ USE_CPP = (os.environ.get('TEST_USE_CPP') == 'yes')
 # (there's also a gcc -x switch, but it needs to go before the filename;
 # I don't think setuptools allows that)
 if USE_CPP:
-    sources = ['test_py3c.cpp']
+    sources = ['test_py3c.cpp', 'test_empty.cpp']
 else:
-    sources = ['test_py3c.c']
+    sources = ['test_py3c.c', 'test_empty.c']
 
 extra_compile_args = []
 extra_compile_args.extend(['-Werror', '-Wall'])

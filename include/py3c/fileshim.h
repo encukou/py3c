@@ -21,6 +21,10 @@ Caveats:
 static char FLUSH[] = "flush";
 static char EMPTY_STRING[] = "";
 
+#ifdef __GNUC__
+static FILE* py3c_PyFile_AsFileWithMode(PyObject *py_file, const char *mode) __attribute__ ((unused));
+#endif
+
 static FILE* py3c_PyFile_AsFileWithMode(PyObject *py_file, const char *mode) {
     FILE *f;
     PyObject *ret;

@@ -129,6 +129,9 @@ typedef struct PyModuleDef {
     void* m_free;
 } PyModuleDef;
 
+#ifdef __GNUC__
+static PyObject *PyModule_Create(PyModuleDef *def) __attribute__ ((unused));
+#endif
 static PyObject *PyModule_Create(PyModuleDef *def) {
     assert(!def->m_slots);
     assert(!def->m_traverse);

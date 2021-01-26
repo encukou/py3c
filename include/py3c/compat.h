@@ -74,10 +74,7 @@
 #define PyStr_InternFromString PyString_InternFromString
 #define PyStr_Decode PyString_Decode
 
-#ifdef __GNUC__
-static PyObject *PyStr_Concat(PyObject *left, PyObject *right) __attribute__ ((unused));
-#endif
-static PyObject *PyStr_Concat(PyObject *left, PyObject *right) {
+static inline PyObject *PyStr_Concat(PyObject *left, PyObject *right) {
     PyObject *str = left;
     Py_INCREF(left);  /* reference to old left will be stolen */
     PyString_Concat(&str, right);
@@ -129,7 +126,7 @@ typedef struct PyModuleDef {
     void* m_free;
 } PyModuleDef;
 
-static PyObject *PyModule_Create(PyModuleDef *def) {
+static inline PyObject *PyModule_Create(PyModuleDef *def) {
     assert(!def->m_slots);
     assert(!def->m_traverse);
     assert(!def->m_clear);

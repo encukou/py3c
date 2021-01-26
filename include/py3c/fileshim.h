@@ -5,6 +5,7 @@
 #ifndef _PY3C_FILESHIM_H_
 #define _PY3C_FILESHIM_H_
 #include <Python.h>
+#include <py3c/compat.h>
 
 /*
 
@@ -21,11 +22,7 @@ Caveats:
 static char FLUSH[] = "flush";
 static char EMPTY_STRING[] = "";
 
-#ifdef __GNUC__
-static FILE* py3c_PyFile_AsFileWithMode(PyObject *py_file, const char *mode) __attribute__ ((unused));
-#endif
-
-static FILE* py3c_PyFile_AsFileWithMode(PyObject *py_file, const char *mode) {
+_py3c_STATIC_INLINE_FUNCTION(FILE* py3c_PyFile_AsFileWithMode(PyObject *py_file, const char *mode)) {
     FILE *f;
     PyObject *ret;
     int fd;

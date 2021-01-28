@@ -56,7 +56,7 @@
 /* Files */
 
 #define PyFile_FromFile(fp, name, mode, close) \
-    PyFile_FromFd(fileno(fp), name, mode, -1, NULL, NULL, NULL, close ? 1 : 0)
+    PyFile_FromFd(fileno(fp), name, mode, -1, NULL, NULL, NULL, close == fclose ? 1 : 0)
 
 #else
 

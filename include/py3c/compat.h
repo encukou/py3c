@@ -53,6 +53,11 @@
     PyMODINIT_FUNC PyInit_ ## name(void); \
     PyMODINIT_FUNC PyInit_ ## name(void)
 
+/* Files */
+
+#define PyFile_FromFile(fp, name, mode, close) \
+    PyFile_FromFd(fileno(fp), name, mode, -1, NULL, NULL, NULL, close ? 1 : 0)
+
 #else
 
 /***** Python 2 *****/

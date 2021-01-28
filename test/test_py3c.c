@@ -1,12 +1,8 @@
 /* Make sure Py_UNREACHABLE errors out */
 #define RANDALL_WAS_HERE
 
-#include <Python.h>
+#include "all_py3c_headers.h"
 #include "structmember.h"
-#include <py3c.h>
-#include <py3c/capsulethunk.h>
-#include <py3c/fileshim.h>
-#include <py3c/tpflags.h>
 
 #define UTF8_STRING "test string \xe1\xba\x87\xc3\xad\xc5\xa5\xc4\xa7 \xc5\xae\xc5\xa2\xe1\xb8\x9e\xe2\x88\x9e \xe2\x98\xba"
 #define FORMAT_STRING "<%s:%d>"

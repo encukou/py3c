@@ -7,6 +7,18 @@
 #include <Python.h>
 #include <assert.h>
 
+/* Mark a function as `static inline`.
+ * Before C99, `inline` is not available, so use just `static` and silence
+ * "unused definition" warnings on some compilers.
+ */
+#if __STDC_VERSION__ >= 199901L
+#define _py3c_STATIC_INLINE_FUNCTION(d) static inline d
+#elif defined(__GNUC__) || defined(__clang__)
+#define _py3c_STATIC_INLINE_FUNCTION(d) static d __attribute__ ((unused)); static d
+#else
+#define _py3c_STATIC_INLINE_FUNCTION(d) static d
+#endif
+
 #if PY_MAJOR_VERSION >= 3
 
 /***** Python 3 *****/
@@ -74,10 +86,7 @@
 #define PyStr_InternFromString PyString_InternFromString
 #define PyStr_Decode PyString_Decode
 
-#ifdef __GNUC__
-static PyObject *PyStr_Concat(PyObject *left, PyObject *right) __attribute__ ((unused));
-#endif
-static PyObject *PyStr_Concat(PyObject *left, PyObject *right) {
+_py3c_STATIC_INLINE_FUNCTION(PyObject *PyStr_Concat(PyObject *left, PyObject *right)) {
     PyObject *str = left;
     Py_INCREF(left);  /* reference to old left will be stolen */
     PyString_Concat(&str, right);
@@ -129,7 +138,7 @@ typedef struct PyModuleDef {
     void* m_free;
 } PyModuleDef;
 
-static PyObject *PyModule_Create(PyModuleDef *def) {
+_py3c_STATIC_INLINE_FUNCTION(PyObject *PyModule_Create(PyModuleDef *def)) {
     assert(!def->m_slots);
     assert(!def->m_traverse);
     assert(!def->m_clear);

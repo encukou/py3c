@@ -61,6 +61,7 @@ The following non-trivial macros are defined:
 
     :c:type:`PyModuleDef`
         | Python 2: contains ``m_name``, ``m_doc``, ``m_size``, ``m_methods`` fields from Python 3, and ``m_base`` to accomodate PyModuleDef_HEAD_INIT.
+
         Also contains members `m_slots`, `m_traverse`, `m_clear`, `m_free`,
         which must be set to NULL.
 

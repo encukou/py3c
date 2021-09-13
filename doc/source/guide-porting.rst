@@ -410,7 +410,9 @@ correct Python version. For example, instead of ``foo.so``, the shared library
 for the extension module ``foo`` might be named ``foo.cpython-33m.so``.
 
 Your buildsystem might generate these for you already, but if you need to
-modify it, you can get the tags from ``systonfig``::
+modify it, you can get the tags from ``sysconfig``:
+
+.. code-block:: pycon
 
     >>> import sysconfig
     >>> sysconfig.get_config_var('EXT_SUFFIX')

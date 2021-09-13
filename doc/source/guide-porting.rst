@@ -349,6 +349,46 @@ If you really need to access an API that deals with ``FILE*`` only
 (e.g. for debugging), see py3c's limited :doc:`file API shim <fileshim>`.
 
 
+Py_FindMethod and Generic Attributes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+While the actual need for type-specific attribute handlers almost completely
+disappeared starting with `Generic Attribute support in Python 2.2
+<https://docs.python.org/2.7/extending/newtypes.html#generic-attribute-management>`_,
+there may still be old code that uses a custom ``tp_getattr`` implementation to
+return methods for a user-defined type.
+
+The following example snippet uses :c:func:`Py_FindMethod <py2:Py_FindMethod>`
+from a ``tp_getattr`` function to return custom methods for a type::
+
+    static struct PyMethodDef mytype_methods[] = {
+        {"my_method", (PyCFunction)mytype_example, METH_VARARGS, "docstring"},
+        {NULL, NULL},
+    };
+
+    static PyObject* mytype_getattr(mytype* self, char* name)
+    {
+        return Py_FindMethod(mytype_methods, (PyObject*)self, name);
+    }
+
+A ``tp_getattr`` function like the one above can be eliminated. A pointer to
+:c:func:`PyObject_GenericGetAttr <py2:PyObject_GenericGetAttr>`
+can be set in the ``tp_getattro`` field, rather than implementing a custom
+``tp_getattr`` function ourselves, as long as we we also set the ``tp_methods``
+struct field to the ``mytype_methods`` array.
+
+* Set the ``tp_methods`` struct field to the ``mytype_methods``
+  :c:type:`PyMethodDef <py3:PyMethodDef>` array.
+
+* Set the ``tp_getattr`` :c:type:`PyTypeObject <py3:PyTypeObject>` struct field,
+  which previously was set to the custom ``mytype_getattr`` function, to NULL.
+
+* Set the ``tp_getattro`` struct field to
+  :c:func:`PyObject_GenericGetAttr <py2:PyObject_GenericGetAttr>`.
+
+* Delete the custom ``mytype_getattr`` function.
+
+
 Other changes
 ~~~~~~~~~~~~~
 

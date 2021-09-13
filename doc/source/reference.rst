@@ -643,10 +643,10 @@ Files
 
     #include <py3c/fileshim.h>  // (*NOT* included in <py3c.h>)
 
-.. c:function:: py3c_PyFile_AsFileWithMode(PyObject *py_file, const char *mode)
+:c:func:`py3c_PyFile_AsFileWithMode <py3c:py3c_PyFile_AsFileWithMode>`
 
-    Quick-and-dirty substitute for the removed  :c:func:`py2:PyFile_AsFile`.
-    Read the :doc:`file shim <fileshim>` chapter before using.
+Quick-and-dirty substitute for the removed  :c:func:`py2:PyFile_AsFile`.
+Read the :doc:`file shim <fileshim>` chapter before using.
 
 
 Shims for New Conveniences in Python 3.4+

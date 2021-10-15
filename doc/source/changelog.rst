@@ -7,6 +7,23 @@ py3c Changes
 Version History
 ===============
 
+v1.4 (2021-10-15)
+-----------------
+
+Additions:
+
+* add guidance around the use of ``Py_FindMethod`` (thanks to David Aguilar)
+
+Fixes:
+
+* Avoid compiler warning about unused function
+* Fix ``DESTDIR`` support in the Makefile (thanks to David Aguilar)
+* Various documentation warning fixes (thanks to David Aguilar)
+
+Project infrastructure:
+
+* Switch to GitHub Actions for pull request tests
+
 
 v1.3.1 (2021-01-07)
 -------------------

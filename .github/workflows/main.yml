@@ -18,10 +18,11 @@ jobs:
         tox_env: ${{ matrix.tox_env }}
     strategy:
       matrix:
+        # N.B. Keep the env list in sync with tox.ini
         tox_env: [
             py27-c90, py35-c90, py36-c90,
             py27-c99, py35-c99, py36-c99, py37-c99, py38-c99, py39-c99, py310-c99,
-            py27-cpp, py35-cpp, py36-cpp, py37-cpp, py38-cpp, py39-cpp, py310-cpp,
+            py27-cpp14, py35-cpp17, py36-cpp17, py37-cpp17, py38-cpp17, py39-cpp17, py310-cpp17,
         ]
 
       # Old Python versions tend to have their own problems, so the CI

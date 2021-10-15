@@ -24,6 +24,11 @@ jobs:
             py27-cpp, py35-cpp, py36-cpp, py37-cpp, py38-cpp, py39-cpp, py310-cpp,
         ]
 
+      # Old Python versions tend to have their own problems, so the CI
+      # isn't green all the time :(
+      # With this flag, GHA will show all issues so they can be analyzed.
+      fail-fast: false
+
     # Use GitHub's Linux Docker host
     runs-on: ubuntu-latest
 

@@ -219,7 +219,7 @@ All follow the Python 3 API.
     | Python 2: :c:func:`PyString_FromString <py2:PyString_FromString>`
     | Python 3: :c:func:`(provided) <py3:PyBytes_FromString>`
 
-.. c:function:: PyObject* PPyBytes_FromStringAndSize(const char *v, Py_ssize_t len)
+.. c:function:: PyObject* PyBytes_FromStringAndSize(const char *v, Py_ssize_t len)
 
     Create a :ref:`PyBytes` from a C buffer and size.
 
